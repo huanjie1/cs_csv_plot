@@ -63,7 +63,9 @@ namespace csv_plot1
         private void button2_Click(object sender, EventArgs e)
         {
             // 5s
-            string fileAdd = @"C:\Users\y689\Desktop\201601SOANoise\noisemeasure\Trace_0027.csv";
+            //string fileAdd = @"C:\Users\y689\Desktop\201601SOANoise\noisemeasure\Trace_0027.csv";
+            //string fileAdd = System.IO.Directory.GetParent(System.Environment.CurrentDirectory) + @"\57G.prn";
+            string fileAdd = @"..\..\Trace_0171.csv";
             string alltext = File.ReadAllText(fileAdd);
             Regex rg1 = new Regex(",");
             Regex rg2 = new Regex(";");
@@ -97,7 +99,7 @@ namespace csv_plot1
             int numofcolumn=0;
             string[] linesArray = File.ReadAllLines(fileAdd);
             int numoflines = linesArray.Length;
-            string expdataforsplit = linesArray[numoflines - 2];
+            string expdataforsplit = linesArray[numoflines - 5];
             string[] expspl = expdataforsplit.Split(splitchar);
             for(int i1=0; i1< expspl.Length; i1++)
             {
@@ -105,10 +107,10 @@ namespace csv_plot1
                     numofcolumn++;
             }
 
-            label4.Text += numoflines.ToString() + '\n';
-            label4.Text += splitchar[0].ToString() + '\n';
-            label4.Text += expdataforsplit + '\n';
-            label4.Text += numofcolumn.ToString() + '\n';
+            label4.Text += "行数" + numoflines.ToString() + '\n';
+            label4.Text += "分隔符" + splitchar[0].ToString() + '\n';
+            label4.Text += "试验分割行" + expdataforsplit + '\n';
+            label4.Text += "列数" + numofcolumn.ToString() + '\n';
 
             double[] col1 = new double[numoflines];
             double[] col2 = new double[numoflines];
@@ -121,7 +123,9 @@ namespace csv_plot1
 
             double temp1 = 0;
             bool nextline = true;
+            bool validdataregion = true;
             int headlinenum = 0;
+            int validdatanum = 0;
             for (int i2=0; i2< numoflines; i2++)
             {
                 string[] dataspl = linesArray[i2].Split(splitchar);
@@ -149,7 +153,17 @@ namespace csv_plot1
                 {
                     for (int j2 = 0; j2 < numofcolumn; j2++)
                     {
-                        temp1 = Convert.ToDouble(dataspl[j2]);
+                        try
+                        {
+                            temp1 = Convert.ToDouble(dataspl[j2]);
+                            validdataregion = true;
+                        }
+                        catch
+                        {
+                            validdataregion = false;
+                            break;                            
+                        }
+
                         switch(j2)
                         {
                             case 0:
@@ -177,12 +191,17 @@ namespace csv_plot1
                                 break;
                         }
                     }
+
+                    if (!validdataregion)
+                        break;
+                    validdatanum++;
+
                 }
             
             }
 
-            label4.Text += headlinenum.ToString() + '\n';
-
+            label4.Text += "标题行数" + headlinenum.ToString() + '\n';
+            label4.Text += "数据行数" + validdatanum.ToString() + '\n';
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -204,6 +223,11 @@ namespace csv_plot1
                 MessageBox.Show("df");
             }
             label4.Text += exp11.ToString() + '\n';
+        }
+
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

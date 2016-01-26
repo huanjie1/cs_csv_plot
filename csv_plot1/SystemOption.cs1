@@ -1,0 +1,2188 @@
+public class SystemOption : Form
+{
+    // Fields
+    private TextBox BackColor1;
+    private Button button1;
+    private Button button2;
+    private Button buttonExit;
+    private CheckBox checkBox1;
+    private CheckBox checkBox10;
+    private CheckBox checkBox2;
+    private CheckBox checkBox3;
+    private CheckBox checkBox4;
+    private CheckBox checkBox5;
+    private CheckBox checkBox6;
+    private CheckBox checkBox6126;
+    private CheckBox checkBox7;
+    private CheckBox checkBox7130;
+    private CheckBox checkBox730;
+    private CheckBox checkBox8;
+    private CheckBox checkBox8454;
+    private CheckBox checkBox9;
+    private CheckBox checkBoxComAz;
+    private CheckBox checkBoxComDF;
+    private CheckBox checkBoxComDn;
+    private CheckBox checkBoxComEl;
+    private CheckBox checkBoxComFAz;
+    private CheckBox checkBoxComFSd;
+    private CheckBox checkBoxComFSdSwitch;
+    private CheckBox checkBoxComGF;
+    private CheckBox checkBoxComNSd;
+    private CheckBox checkBoxComPt;
+    private CheckBox checkBoxComRv;
+    private CheckBox checkBoxComScm;
+    private CheckBox checkBoxComSwitch;
+    private CheckBox checkBoxOpenDevice;
+    private CheckBox checkBoxOpenZeroButton;
+    private CheckBox checkBoxSignal;
+    private CheckBox checkBoxVNA;
+    private ColorDialog colorDialog1;
+    private ComboBox comboBoxAz;
+    private ComboBox comboBoxDn;
+    private ComboBox comboBoxEl;
+    private ComboBox comboBoxFAz;
+    private ComboBox comboBoxFSd;
+    private ComboBox comboBoxNSd;
+    private ComboBox comboBoxPt;
+    private ComboBox comboBoxRv;
+    private ComboBox comboBoxSigType;
+    private ComboBox comboBoxVNAType;
+    private IContainer components = null;
+    private DomainUpDown DownMargin;
+    private Grouper grouper1;
+    private Grouper grouper2;
+    private Grouper grouper3;
+    private Grouper grouper4;
+    private Grouper grouper5;
+    private Grouper grouper6;
+    private Grouper grouper7;
+    private Grouper grouper8;
+    private DomainUpDown KeduAngle;
+    private DomainUpDown KeduElec;
+    private Label label1;
+    private Label label10;
+    private Label label11;
+    private Label label22;
+    private Label label23;
+    private Label label3;
+    private Label label4;
+    private Label label48;
+    private Label label5;
+    private Label label6;
+    private Label label7;
+    private Label label8;
+    private Label label9;
+    private DomainUpDown LeftMargin;
+    private TextBox LineColor;
+    private TextBox MapColor1;
+    private TextBox MapColor2;
+    private TextBox MapColor3;
+    private TextBox MapColor4;
+    private TextBox MapColor5;
+    private TextBox MapColor6;
+    private TextBox MapColor7;
+    private TextBox MapColor8;
+    private TextBox MapColor9;
+    private DomainUpDown MaxElec;
+    private DomainUpDown MinElec;
+    private NumericUpDown numericUpDown3;
+    private NumericUpDown numericUpDown4;
+    private NumericUpDown numericUpDownAz;
+    private NumericUpDown numericUpDownDF;
+    private NumericUpDown numericUpDownDn;
+    private NumericUpDown numericUpDownEl;
+    private NumericUpDown numericUpDownFAz;
+    private NumericUpDown numericUpDownFSd;
+    private NumericUpDown numericUpDownGF;
+    private NumericUpDown numericUpDownNSd;
+    private NumericUpDown numericUpDownRv;
+    private NumericUpDown numericUpDownScm;
+    private NumericUpDown numericUpDownSwitch;
+    private RadioButton radioButtonSigCom;
+    private RadioButton radioButtonSigNI;
+    private RadioButton radioButtonSigTcpIp;
+    private RadioButton radioButtonVNANI;
+    private RadioButton radioButtonVNATcpIP;
+    private RadioButton radioButtonVNAUsbGpib;
+    private DomainUpDown RightMargin;
+    private TabControl tabControl1;
+    private TabPage tabPage1;
+    private TabPage tabPage2;
+    private TabPage tabPage3;
+    private TabPage tabPage4;
+    private TextBox textBoxSigCom;
+    private TextBox textBoxSigNI;
+    private TextBox textBoxSigTcpIP;
+    private TextBox textBoxVNANI;
+    private TextBox textBoxVNATcpIP;
+    private TextBox textBoxVNAUsbGpib;
+    private DomainUpDown TopMargin;
+
+    // Methods
+    public SystemOption()
+    {
+        this.InitializeComponent();
+    }
+
+    private void BackColor1_Click(object sender, EventArgs e)
+    {
+        if (this.colorDialog1.ShowDialog() == DialogResult.OK)
+        {
+            this.BackColor1.BackColor = this.colorDialog1.Color;
+        }
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            define.VNA = this.checkBoxVNA.Checked;
+            define.VNAType = this.comboBoxVNAType.Text;
+            define.VNATcpIP = this.textBoxVNATcpIP.Text;
+            define.VNANI = Convert.ToInt16(this.textBoxVNANI.Text);
+            define.VNAUSB = Convert.ToInt16(this.textBoxVNAUsbGpib.Text);
+            if (this.radioButtonVNATcpIP.Checked)
+            {
+                define.VNAConnect = "TCPIP";
+            }
+            if (this.radioButtonVNANI.Checked)
+            {
+                define.VNAConnect = "NI";
+            }
+            if (this.radioButtonVNAUsbGpib.Checked)
+            {
+                define.VNAConnect = "USB";
+            }
+            define.Signal = this.checkBoxSignal.Checked;
+            define.SigType = this.comboBoxSigType.Text;
+            define.SigTcpIP = this.textBoxSigTcpIP.Text;
+            define.SigNI = Convert.ToInt16(this.textBoxSigNI.Text);
+            define.SigCom = Convert.ToInt16(this.textBoxSigCom.Text);
+            if (this.radioButtonSigCom.Checked)
+            {
+                define.SigConnect = "COM";
+            }
+            if (this.radioButtonSigTcpIp.Checked)
+            {
+                define.SigConnect = "TCPIP";
+            }
+            if (this.radioButtonSigNI.Checked)
+            {
+                define.SigConnect = "NI";
+            }
+            define.comScm = this.checkBoxComScm.Checked;
+            define.comAz = this.checkBoxComAz.Checked;
+            define.comEl = this.checkBoxComEl.Checked;
+            define.comDn = this.checkBoxComDn.Checked;
+            define.comPt = this.checkBoxComPt.Checked;
+            define.comNSd = this.checkBoxComNSd.Checked;
+            define.comRv = this.checkBoxComRv.Checked;
+            define.comSwitch = this.checkBoxComSwitch.Checked;
+            define.comGF = this.checkBoxComGF.Checked;
+            define.comDF = this.checkBoxComDF.Checked;
+            define.Scm = Convert.ToInt16(this.numericUpDownScm.Value);
+            define.Az = Convert.ToInt16(this.numericUpDownAz.Value);
+            define.Dn = Convert.ToInt16(this.numericUpDownDn.Value);
+            define.El = Convert.ToInt16(this.numericUpDownEl.Value);
+            define.Rv = Convert.ToInt16(this.numericUpDownRv.Value);
+            define.NSd = Convert.ToInt16(this.numericUpDownNSd.Value);
+            define.Switch = Convert.ToInt16(this.numericUpDownSwitch.Value);
+            define.GF = Convert.ToInt16(this.numericUpDownGF.Value);
+            define.DF = Convert.ToInt16(this.numericUpDownDF.Value);
+            if (this.comboBoxAz.Text == "脉冲")
+            {
+                define.ScmAz = true;
+            }
+            else if (this.comboBoxAz.Text == "编码")
+            {
+                define.ScmAz = false;
+            }
+            if (this.comboBoxEl.Text == "脉冲")
+            {
+                define.ScmEl = true;
+            }
+            else if (this.comboBoxEl.Text == "编码")
+            {
+                define.ScmEl = false;
+            }
+            if (this.comboBoxDn.Text == "脉冲")
+            {
+                define.ScmDn = true;
+            }
+            else if (this.comboBoxDn.Text == "编码")
+            {
+                define.ScmDn = false;
+            }
+            if (this.comboBoxNSd.Text == "脉冲")
+            {
+                define.ScmNSd = true;
+            }
+            else if (this.comboBoxNSd.Text == "编码")
+            {
+                define.ScmNSd = false;
+            }
+            if (this.comboBoxRv.Text == "脉冲")
+            {
+                define.ScmRv = true;
+            }
+            else if (this.comboBoxRv.Text == "编码")
+            {
+                define.ScmRv = false;
+            }
+            getprams.LeftMargin = Convert.ToInt32(this.LeftMargin.Text);
+            getprams.RightMargin = Convert.ToInt32(this.RightMargin.Text);
+            getprams.TopMargin = Convert.ToInt32(this.TopMargin.Text);
+            getprams.DownMargin = Convert.ToInt32(this.DownMargin.Text);
+            getprams.MaxElec = Convert.ToInt32(this.MaxElec.Text);
+            getprams.MinElec = Convert.ToInt32(this.MinElec.Text);
+            getprams.KeduAngle = Convert.ToInt32(this.KeduAngle.Text);
+            getprams.KeduElec = Convert.ToInt32(this.KeduElec.Text);
+            getprams.LineColor = this.LineColor.BackColor;
+            getprams.BackColor = this.BackColor1.BackColor;
+            getprams.MapColor[1] = this.MapColor1.BackColor;
+            getprams.MapColor[2] = this.MapColor2.BackColor;
+            getprams.MapColor[3] = this.MapColor3.BackColor;
+            getprams.MapColor[4] = this.MapColor4.BackColor;
+            getprams.MapColor[5] = this.MapColor5.BackColor;
+            getprams.MapColor[6] = this.MapColor6.BackColor;
+            getprams.MapColor[7] = this.MapColor7.BackColor;
+            getprams.MapColor[8] = this.MapColor8.BackColor;
+            getprams.MapColor[9] = this.MapColor9.BackColor;
+            define.OpenZeroButton = this.checkBoxOpenZeroButton.Checked;
+            define.ConnetDevice = this.checkBoxOpenDevice.Checked;
+            if (this.checkBox1.Checked)
+            {
+                SCM.testFreqArrColor[1] = true;
+            }
+            else
+            {
+                SCM.testFreqArrColor[1] = false;
+            }
+            if (this.checkBox2.Checked)
+            {
+                SCM.testFreqArrColor[2] = true;
+            }
+            else
+            {
+                SCM.testFreqArrColor[2] = false;
+            }
+            if (this.checkBox3.Checked)
+            {
+                SCM.testFreqArrColor[3] = true;
+            }
+            else
+            {
+                SCM.testFreqArrColor[3] = false;
+            }
+            if (this.checkBox4.Checked)
+            {
+                SCM.testFreqArrColor[4] = true;
+            }
+            else
+            {
+                SCM.testFreqArrColor[4] = false;
+            }
+            if (this.checkBox5.Checked)
+            {
+                SCM.testFreqArrColor[5] = true;
+            }
+            else
+            {
+                SCM.testFreqArrColor[5] = false;
+            }
+            if (this.checkBox6.Checked)
+            {
+                SCM.testFreqArrColor[6] = true;
+            }
+            else
+            {
+                SCM.testFreqArrColor[6] = false;
+            }
+            if (this.checkBox7.Checked)
+            {
+                SCM.testFreqArrColor[7] = true;
+            }
+            else
+            {
+                SCM.testFreqArrColor[7] = false;
+            }
+            if (this.checkBox8.Checked)
+            {
+                SCM.testFreqArrColor[8] = true;
+            }
+            else
+            {
+                SCM.testFreqArrColor[8] = false;
+            }
+            if (this.checkBox9.Checked)
+            {
+                SCM.testFreqArrColor[9] = true;
+            }
+            else
+            {
+                SCM.testFreqArrColor[9] = false;
+            }
+            Main.MainFrom.OpenZero();
+            Main.MainFrom.tabControlRize();
+            base.Close();
+            base.Dispose();
+        }
+        catch (Exception exception)
+        {
+            errLogFunction("SystemOption--button1_Click + " + exception.ToString());
+            MessageBox.Show(exception.Message, "错误信息", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+        }
+    }
+
+    private void button2_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            getprams.LeftMargin = 40;
+            getprams.RightMargin = 30;
+            getprams.TopMargin = 30;
+            getprams.DownMargin = 40;
+            getprams.MaxElec = 0;
+            getprams.MinElec = -100;
+            getprams.KeduAngle = 1;
+            getprams.KeduElec = 10;
+            this.LeftMargin.Text = Convert.ToString(getprams.LeftMargin);
+            this.RightMargin.Text = Convert.ToString(getprams.RightMargin);
+            this.TopMargin.Text = Convert.ToString(getprams.TopMargin);
+            this.DownMargin.Text = Convert.ToString(getprams.DownMargin);
+            this.MaxElec.Text = Convert.ToString(getprams.MaxElec);
+            this.MinElec.Text = Convert.ToString(getprams.MinElec);
+            this.KeduAngle.Text = Convert.ToString(getprams.KeduAngle);
+            this.KeduElec.Text = Convert.ToString(getprams.KeduElec);
+            define.OpenZeroButton = false;
+            define.ConnetDevice = true;
+            this.checkBoxOpenZeroButton.Checked = define.OpenZeroButton;
+            this.checkBoxOpenDevice.Checked = define.ConnetDevice;
+        }
+        catch (Exception exception)
+        {
+            errLogFunction("SystemOption--button2_Click + " + exception.ToString());
+            MessageBox.Show(exception.Message, "错误信息", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+        }
+    }
+
+    private void buttonExit_Click(object sender, EventArgs e)
+    {
+        base.Close();
+        base.Dispose();
+    }
+
+    private void checkBox10_CheckedChanged(object sender, EventArgs e)
+    {
+        if (this.checkBox10.Checked)
+        {
+            this.checkBox1.Checked = true;
+            this.checkBox2.Checked = true;
+            this.checkBox3.Checked = true;
+            this.checkBox4.Checked = true;
+            this.checkBox5.Checked = true;
+            this.checkBox6.Checked = true;
+            this.checkBox7.Checked = true;
+            this.checkBox8.Checked = true;
+            this.checkBox9.Checked = true;
+        }
+        else
+        {
+            this.checkBox1.Checked = false;
+            this.checkBox2.Checked = false;
+            this.checkBox3.Checked = false;
+            this.checkBox4.Checked = false;
+            this.checkBox5.Checked = false;
+            this.checkBox6.Checked = false;
+            this.checkBox7.Checked = false;
+            this.checkBox8.Checked = false;
+            this.checkBox9.Checked = false;
+        }
+    }
+
+    private void checkBoxComAz_CheckedChanged(object sender, EventArgs e)
+    {
+        if (this.checkBoxComAz.Checked)
+        {
+            this.comboBoxAz.Enabled = true;
+            if (this.comboBoxAz.Text == "编码")
+            {
+                this.numericUpDownAz.Enabled = true;
+            }
+            else if (this.comboBoxAz.Text == "脉冲")
+            {
+                this.numericUpDownAz.Enabled = false;
+            }
+        }
+        else
+        {
+            this.comboBoxAz.Enabled = false;
+            this.numericUpDownAz.Enabled = false;
+        }
+    }
+
+    private void checkBoxComDn_CheckedChanged(object sender, EventArgs e)
+    {
+        if (this.checkBoxComDn.Checked)
+        {
+            this.comboBoxDn.Enabled = true;
+            if (this.comboBoxDn.Text == "编码")
+            {
+                this.numericUpDownDn.Enabled = true;
+            }
+            else if (this.comboBoxDn.Text == "脉冲")
+            {
+                this.numericUpDownDn.Enabled = false;
+            }
+        }
+        else
+        {
+            this.comboBoxDn.Enabled = false;
+            this.numericUpDownDn.Enabled = false;
+        }
+    }
+
+    private void checkBoxComEl_CheckedChanged(object sender, EventArgs e)
+    {
+        if (this.checkBoxComEl.Checked)
+        {
+            this.comboBoxEl.Enabled = true;
+            if (this.comboBoxEl.Text == "编码")
+            {
+                this.numericUpDownEl.Enabled = true;
+            }
+            else if (this.comboBoxEl.Text == "脉冲")
+            {
+                this.numericUpDownEl.Enabled = false;
+            }
+        }
+        else
+        {
+            this.comboBoxEl.Enabled = false;
+            this.numericUpDownEl.Enabled = false;
+        }
+    }
+
+    private void checkBoxComGF_CheckedChanged(object sender, EventArgs e)
+    {
+        if (this.checkBoxComGF.Checked)
+        {
+            this.numericUpDownGF.Enabled = true;
+        }
+        else
+        {
+            this.numericUpDownGF.Enabled = false;
+        }
+    }
+
+    private void checkBoxComPt_CheckedChanged(object sender, EventArgs e)
+    {
+        if (this.checkBoxComPt.Checked)
+        {
+            this.checkBoxComPt.Enabled = true;
+        }
+    }
+
+    private void checkBoxComRv_CheckedChanged(object sender, EventArgs e)
+    {
+        if (this.checkBoxComRv.Checked)
+        {
+            this.comboBoxRv.Enabled = true;
+            if (this.comboBoxRv.Text == "编码")
+            {
+                this.numericUpDownRv.Enabled = true;
+            }
+            else if (this.comboBoxRv.Text == "脉冲")
+            {
+                this.numericUpDownRv.Enabled = false;
+            }
+        }
+        else
+        {
+            this.comboBoxRv.Enabled = false;
+            this.numericUpDownRv.Enabled = false;
+        }
+    }
+
+    private void checkBoxComScm_CheckedChanged(object sender, EventArgs e)
+    {
+        if (this.checkBoxComScm.Checked)
+        {
+            this.numericUpDownScm.Enabled = true;
+        }
+        else
+        {
+            this.numericUpDownScm.Enabled = false;
+        }
+    }
+
+    private void checkBoxComSd_CheckedChanged(object sender, EventArgs e)
+    {
+        if (this.checkBoxComNSd.Checked)
+        {
+            this.comboBoxNSd.Enabled = true;
+            if (this.comboBoxNSd.Text == "编码")
+            {
+                this.numericUpDownNSd.Enabled = true;
+            }
+            else if (this.comboBoxNSd.Text == "脉冲")
+            {
+                this.numericUpDownNSd.Enabled = false;
+            }
+        }
+        else
+        {
+            this.comboBoxNSd.Enabled = false;
+            this.numericUpDownNSd.Enabled = false;
+        }
+    }
+
+    private void checkBoxComSwitch_CheckedChanged(object sender, EventArgs e)
+    {
+        if (this.checkBoxComSwitch.Checked)
+        {
+            this.numericUpDownSwitch.Enabled = true;
+        }
+        else
+        {
+            this.numericUpDownSwitch.Enabled = false;
+        }
+    }
+
+    private void checkBoxSignal_CheckedChanged(object sender, EventArgs e)
+    {
+        if (this.checkBoxSignal.Checked)
+        {
+            this.grouper2.Enabled = true;
+        }
+        else
+        {
+            this.grouper2.Enabled = false;
+        }
+    }
+
+    private void checkBoxVNA_CheckedChanged(object sender, EventArgs e)
+    {
+        if (this.checkBoxVNA.Checked)
+        {
+            this.grouper1.Enabled = true;
+        }
+        else
+        {
+            this.grouper1.Enabled = false;
+        }
+    }
+
+    private void CheckedComDF_CheckedChanged(object sender, EventArgs e)
+    {
+        if (this.checkBoxComDF.Checked)
+        {
+            this.numericUpDownDF.Enabled = true;
+        }
+        else
+        {
+            this.numericUpDownDF.Enabled = false;
+        }
+    }
+
+    private void comboBoxAz_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (this.comboBoxAz.Text == "编码")
+        {
+            this.numericUpDownAz.Enabled = true;
+        }
+        else if (this.comboBoxAz.Text == "脉冲")
+        {
+            this.numericUpDownAz.Enabled = false;
+        }
+    }
+
+    private void comboBoxDn_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (this.comboBoxDn.Text == "编码")
+        {
+            this.numericUpDownDn.Enabled = true;
+        }
+        else if (this.comboBoxDn.Text == "脉冲")
+        {
+            this.numericUpDownDn.Enabled = false;
+        }
+    }
+
+    private void comboBoxEl_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (this.comboBoxEl.Text == "编码")
+        {
+            this.numericUpDownEl.Enabled = true;
+        }
+        else if (this.comboBoxEl.Text == "脉冲")
+        {
+            this.numericUpDownEl.Enabled = false;
+        }
+    }
+
+    private void comboBoxRv_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (this.comboBoxRv.Text == "编码")
+        {
+            this.numericUpDownRv.Enabled = true;
+        }
+        else if (this.comboBoxRv.Text == "脉冲")
+        {
+            this.numericUpDownRv.Enabled = false;
+        }
+    }
+
+    private void comboBoxSd_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (this.comboBoxNSd.Text == "编码")
+        {
+            this.numericUpDownNSd.Enabled = true;
+        }
+        else if (this.comboBoxNSd.Text == "脉冲")
+        {
+            this.numericUpDownNSd.Enabled = false;
+        }
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing && (this.components != null))
+        {
+            this.components.Dispose();
+        }
+        base.Dispose(disposing);
+    }
+
+    public static void errLogFunction(string errStr)
+    {
+        try
+        {
+            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string path = AppDomain.CurrentDomain.BaseDirectory + "errLog.log";
+            FileInfo info = new FileInfo(baseDirectory + "errLog.log");
+            if (info.Length > 0x186a0L)
+            {
+                info.CopyTo(baseDirectory + "errLog1.log", true);
+                info.Delete();
+            }
+            StreamWriter writer = new StreamWriter(path, true, Encoding.Default);
+            writer.WriteLine(DateTime.Now.ToString() + "  ---  " + errStr);
+            writer.WriteLine("");
+            writer.Close();
+        }
+        catch
+        {
+        }
+    }
+
+    private void InitializeComponent()
+    {
+        ComponentResourceManager manager = new ComponentResourceManager(typeof(SystemOption));
+        this.tabControl1 = new TabControl();
+        this.tabPage1 = new TabPage();
+        this.checkBoxSignal = new CheckBox();
+        this.checkBoxVNA = new CheckBox();
+        this.grouper2 = new Grouper();
+        this.textBoxSigNI = new TextBox();
+        this.radioButtonSigNI = new RadioButton();
+        this.textBoxSigTcpIP = new TextBox();
+        this.textBoxSigCom = new TextBox();
+        this.radioButtonSigTcpIp = new RadioButton();
+        this.radioButtonSigCom = new RadioButton();
+        this.label1 = new Label();
+        this.comboBoxSigType = new ComboBox();
+        this.grouper1 = new Grouper();
+        this.textBoxVNAUsbGpib = new TextBox();
+        this.radioButtonVNAUsbGpib = new RadioButton();
+        this.textBoxVNANI = new TextBox();
+        this.radioButtonVNATcpIP = new RadioButton();
+        this.radioButtonVNANI = new RadioButton();
+        this.label48 = new Label();
+        this.comboBoxVNAType = new ComboBox();
+        this.textBoxVNATcpIP = new TextBox();
+        this.label10 = new Label();
+        this.tabPage2 = new TabPage();
+        this.grouper4 = new Grouper();
+        this.numericUpDown3 = new NumericUpDown();
+        this.checkBoxComFSdSwitch = new CheckBox();
+        this.numericUpDownDF = new NumericUpDown();
+        this.numericUpDownGF = new NumericUpDown();
+        this.checkBoxComDF = new CheckBox();
+        this.checkBoxComGF = new CheckBox();
+        this.checkBoxComSwitch = new CheckBox();
+        this.numericUpDownSwitch = new NumericUpDown();
+        this.grouper3 = new Grouper();
+        this.comboBoxPt = new ComboBox();
+        this.numericUpDown4 = new NumericUpDown();
+        this.checkBoxComPt = new CheckBox();
+        this.numericUpDownFSd = new NumericUpDown();
+        this.numericUpDownFAz = new NumericUpDown();
+        this.checkBoxComFSd = new CheckBox();
+        this.comboBoxFSd = new ComboBox();
+        this.comboBoxFAz = new ComboBox();
+        this.checkBoxComFAz = new CheckBox();
+        this.comboBoxAz = new ComboBox();
+        this.numericUpDownEl = new NumericUpDown();
+        this.numericUpDownDn = new NumericUpDown();
+        this.comboBoxRv = new ComboBox();
+        this.numericUpDownScm = new NumericUpDown();
+        this.comboBoxNSd = new ComboBox();
+        this.numericUpDownAz = new NumericUpDown();
+        this.comboBoxEl = new ComboBox();
+        this.checkBoxComScm = new CheckBox();
+        this.comboBoxDn = new ComboBox();
+        this.checkBoxComAz = new CheckBox();
+        this.checkBoxComDn = new CheckBox();
+        this.numericUpDownNSd = new NumericUpDown();
+        this.checkBoxComEl = new CheckBox();
+        this.numericUpDownRv = new NumericUpDown();
+        this.checkBoxComRv = new CheckBox();
+        this.checkBoxComNSd = new CheckBox();
+        this.tabPage4 = new TabPage();
+        this.grouper6 = new Grouper();
+        this.checkBox9 = new CheckBox();
+        this.MapColor1 = new TextBox();
+        this.checkBox8 = new CheckBox();
+        this.MapColor7 = new TextBox();
+        this.checkBox7 = new CheckBox();
+        this.MapColor8 = new TextBox();
+        this.checkBox6 = new CheckBox();
+        this.MapColor9 = new TextBox();
+        this.checkBox5 = new CheckBox();
+        this.MapColor4 = new TextBox();
+        this.checkBox4 = new CheckBox();
+        this.MapColor5 = new TextBox();
+        this.checkBox3 = new CheckBox();
+        this.MapColor6 = new TextBox();
+        this.checkBox2 = new CheckBox();
+        this.MapColor2 = new TextBox();
+        this.checkBox1 = new CheckBox();
+        this.MapColor3 = new TextBox();
+        this.LineColor = new TextBox();
+        this.label23 = new Label();
+        this.label22 = new Label();
+        this.BackColor1 = new TextBox();
+        this.grouper5 = new Grouper();
+        this.KeduElec = new DomainUpDown();
+        this.LeftMargin = new DomainUpDown();
+        this.label9 = new Label();
+        this.label3 = new Label();
+        this.KeduAngle = new DomainUpDown();
+        this.MinElec = new DomainUpDown();
+        this.label11 = new Label();
+        this.label4 = new Label();
+        this.DownMargin = new DomainUpDown();
+        this.MaxElec = new DomainUpDown();
+        this.label7 = new Label();
+        this.label6 = new Label();
+        this.TopMargin = new DomainUpDown();
+        this.label5 = new Label();
+        this.label8 = new Label();
+        this.RightMargin = new DomainUpDown();
+        this.checkBox10 = new CheckBox();
+        this.tabPage3 = new TabPage();
+        this.grouper7 = new Grouper();
+        this.grouper8 = new Grouper();
+        this.checkBox6126 = new CheckBox();
+        this.checkBox7130 = new CheckBox();
+        this.checkBox730 = new CheckBox();
+        this.checkBox8454 = new CheckBox();
+        this.checkBoxOpenDevice = new CheckBox();
+        this.checkBoxOpenZeroButton = new CheckBox();
+        this.button1 = new Button();
+        this.buttonExit = new Button();
+        this.colorDialog1 = new ColorDialog();
+        this.button2 = new Button();
+        this.tabControl1.SuspendLayout();
+        this.tabPage1.SuspendLayout();
+        this.grouper2.SuspendLayout();
+        this.grouper1.SuspendLayout();
+        this.tabPage2.SuspendLayout();
+        this.grouper4.SuspendLayout();
+        this.numericUpDown3.BeginInit();
+        this.numericUpDownDF.BeginInit();
+        this.numericUpDownGF.BeginInit();
+        this.numericUpDownSwitch.BeginInit();
+        this.grouper3.SuspendLayout();
+        this.numericUpDown4.BeginInit();
+        this.numericUpDownFSd.BeginInit();
+        this.numericUpDownFAz.BeginInit();
+        this.numericUpDownEl.BeginInit();
+        this.numericUpDownDn.BeginInit();
+        this.numericUpDownScm.BeginInit();
+        this.numericUpDownAz.BeginInit();
+        this.numericUpDownNSd.BeginInit();
+        this.numericUpDownRv.BeginInit();
+        this.tabPage4.SuspendLayout();
+        this.grouper6.SuspendLayout();
+        this.grouper5.SuspendLayout();
+        this.tabPage3.SuspendLayout();
+        this.grouper7.SuspendLayout();
+        this.grouper8.SuspendLayout();
+        base.SuspendLayout();
+        this.tabControl1.Controls.Add(this.tabPage1);
+        this.tabControl1.Controls.Add(this.tabPage2);
+        this.tabControl1.Controls.Add(this.tabPage4);
+        this.tabControl1.Controls.Add(this.tabPage3);
+        this.tabControl1.Font = new Font("宋体", 9.75f, FontStyle.Regular, GraphicsUnit.Point, 0x86);
+        this.tabControl1.Location = new Point(12, 12);
+        this.tabControl1.Name = "tabControl1";
+        this.tabControl1.SelectedIndex = 0;
+        this.tabControl1.Size = new Size(0x197, 0x16e);
+        this.tabControl1.TabIndex = 0;
+        this.tabPage1.Controls.Add(this.checkBoxSignal);
+        this.tabPage1.Controls.Add(this.checkBoxVNA);
+        this.tabPage1.Controls.Add(this.grouper2);
+        this.tabPage1.Controls.Add(this.grouper1);
+        this.tabPage1.Controls.Add(this.label10);
+        this.tabPage1.Location = new Point(4, 0x16);
+        this.tabPage1.Name = "tabPage1";
+        this.tabPage1.Padding = new Padding(3);
+        this.tabPage1.Size = new Size(0x18f, 340);
+        this.tabPage1.TabIndex = 0;
+        this.tabPage1.Text = "仪  表";
+        this.tabPage1.UseVisualStyleBackColor = true;
+        this.checkBoxSignal.BackColor = Color.White;
+        this.checkBoxSignal.Checked = true;
+        this.checkBoxSignal.CheckState = CheckState.Checked;
+        this.checkBoxSignal.Location = new Point(0x2e, 0xb9);
+        this.checkBoxSignal.Name = "checkBoxSignal";
+        this.checkBoxSignal.Size = new Size(0x10, 0x10);
+        this.checkBoxSignal.TabIndex = 0x18;
+        this.checkBoxSignal.UseVisualStyleBackColor = false;
+        this.checkBoxSignal.CheckedChanged += new EventHandler(this.checkBoxSignal_CheckedChanged);
+        this.checkBoxVNA.BackColor = Color.White;
+        this.checkBoxVNA.Checked = true;
+        this.checkBoxVNA.CheckState = CheckState.Checked;
+        this.checkBoxVNA.Location = new Point(0x2e, 0x13);
+        this.checkBoxVNA.Name = "checkBoxVNA";
+        this.checkBoxVNA.Size = new Size(0x10, 0x10);
+        this.checkBoxVNA.TabIndex = 0x17;
+        this.checkBoxVNA.UseVisualStyleBackColor = false;
+        this.checkBoxVNA.CheckedChanged += new EventHandler(this.checkBoxVNA_CheckedChanged);
+        this.grouper2.BackgroundColor = Color.White;
+        this.grouper2.BackgroundGradientColor = Color.White;
+        this.grouper2.BackgroundGradientMode = Grouper.GroupBoxGradientMode.None;
+        this.grouper2.BorderColor = Color.Black;
+        this.grouper2.BorderThickness = 1f;
+        this.grouper2.Controls.Add(this.textBoxSigNI);
+        this.grouper2.Controls.Add(this.radioButtonSigNI);
+        this.grouper2.Controls.Add(this.textBoxSigTcpIP);
+        this.grouper2.Controls.Add(this.textBoxSigCom);
+        this.grouper2.Controls.Add(this.radioButtonSigTcpIp);
+        this.grouper2.Controls.Add(this.radioButtonSigCom);
+        this.grouper2.Controls.Add(this.label1);
+        this.grouper2.Controls.Add(this.comboBoxSigType);
+        this.grouper2.CustomGroupBoxColor = Color.White;
+        this.grouper2.GroupImage = (Image) manager.GetObject("grouper2.GroupImage");
+        this.grouper2.GroupTitle = "信号源";
+        this.grouper2.Location = new Point(0x10, 0xb5);
+        this.grouper2.Name = "grouper2";
+        this.grouper2.Padding = new Padding(20);
+        this.grouper2.PaintGroupBox = false;
+        this.grouper2.RoundCorners = 10;
+        this.grouper2.ShadowColor = Color.DarkGray;
+        this.grouper2.ShadowControl = true;
+        this.grouper2.ShadowThickness = 3;
+        this.grouper2.Size = new Size(0x16f, 150);
+        this.grouper2.TabIndex = 0x16;
+        this.textBoxSigNI.Font = new Font("宋体", 10f);
+        this.textBoxSigNI.Location = new Point(0x81, 0x56);
+        this.textBoxSigNI.Name = "textBoxSigNI";
+        this.textBoxSigNI.Size = new Size(0x31, 0x17);
+        this.textBoxSigNI.TabIndex = 0x13;
+        this.textBoxSigNI.Text = "19";
+        this.textBoxSigNI.TextAlign = HorizontalAlignment.Center;
+        this.radioButtonSigNI.AutoSize = true;
+        this.radioButtonSigNI.Font = new Font("宋体", 10f);
+        this.radioButtonSigNI.Location = new Point(0x2a, 0x58);
+        this.radioButtonSigNI.Name = "radioButtonSigNI";
+        this.radioButtonSigNI.Size = new Size(0x58, 0x12);
+        this.radioButtonSigNI.TabIndex = 0x12;
+        this.radioButtonSigNI.Text = "GPIB-GPIB";
+        this.radioButtonSigNI.UseVisualStyleBackColor = true;
+        this.textBoxSigTcpIP.Font = new Font("宋体", 10f);
+        this.textBoxSigTcpIP.Location = new Point(0x6c, 0x73);
+        this.textBoxSigTcpIP.Name = "textBoxSigTcpIP";
+        this.textBoxSigTcpIP.Size = new Size(0x7f, 0x17);
+        this.textBoxSigTcpIP.TabIndex = 15;
+        this.textBoxSigTcpIP.Text = "192.168.1.103";
+        this.textBoxSigTcpIP.TextAlign = HorizontalAlignment.Center;
+        this.textBoxSigCom.Font = new Font("宋体", 10f);
+        this.textBoxSigCom.Location = new Point(0x6c, 0x39);
+        this.textBoxSigCom.Name = "textBoxSigCom";
+        this.textBoxSigCom.Size = new Size(0x31, 0x17);
+        this.textBoxSigCom.TabIndex = 0x11;
+        this.textBoxSigCom.Text = "5";
+        this.textBoxSigCom.TextAlign = HorizontalAlignment.Center;
+        this.radioButtonSigTcpIp.AutoSize = true;
+        this.radioButtonSigTcpIp.Font = new Font("宋体", 10f);
+        this.radioButtonSigTcpIp.Location = new Point(0x2a, 0x73);
+        this.radioButtonSigTcpIp.Name = "radioButtonSigTcpIp";
+        this.radioButtonSigTcpIp.Size = new Size(60, 0x12);
+        this.radioButtonSigTcpIp.TabIndex = 0;
+        this.radioButtonSigTcpIp.Text = "TCPIP";
+        this.radioButtonSigTcpIp.UseVisualStyleBackColor = true;
+        this.radioButtonSigCom.AutoSize = true;
+        this.radioButtonSigCom.Checked = true;
+        this.radioButtonSigCom.Font = new Font("宋体", 10f);
+        this.radioButtonSigCom.Location = new Point(0x2a, 0x3b);
+        this.radioButtonSigCom.Name = "radioButtonSigCom";
+        this.radioButtonSigCom.Size = new Size(0x35, 0x12);
+        this.radioButtonSigCom.TabIndex = 0x10;
+        this.radioButtonSigCom.TabStop = true;
+        this.radioButtonSigCom.Text = "串口";
+        this.radioButtonSigCom.UseVisualStyleBackColor = true;
+        this.label1.AutoSize = true;
+        this.label1.Font = new Font("宋体", 10f);
+        this.label1.ForeColor = Color.Black;
+        this.label1.Location = new Point(0x3b, 0x20);
+        this.label1.Name = "label1";
+        this.label1.Size = new Size(0x31, 14);
+        this.label1.TabIndex = 11;
+        this.label1.Text = "型号：";
+        this.comboBoxSigType.Font = new Font("宋体", 10f);
+        this.comboBoxSigType.FormattingEnabled = true;
+        this.comboBoxSigType.Items.AddRange(new object[] { "E8257D" });
+        this.comboBoxSigType.Location = new Point(0x6c, 0x1d);
+        this.comboBoxSigType.Name = "comboBoxSigType";
+        this.comboBoxSigType.Size = new Size(0x5d, 0x15);
+        this.comboBoxSigType.TabIndex = 12;
+        this.grouper1.BackgroundColor = Color.White;
+        this.grouper1.BackgroundGradientColor = Color.White;
+        this.grouper1.BackgroundGradientMode = Grouper.GroupBoxGradientMode.None;
+        this.grouper1.BorderColor = Color.Black;
+        this.grouper1.BorderThickness = 1f;
+        this.grouper1.Controls.Add(this.textBoxVNAUsbGpib);
+        this.grouper1.Controls.Add(this.radioButtonVNAUsbGpib);
+        this.grouper1.Controls.Add(this.textBoxVNANI);
+        this.grouper1.Controls.Add(this.radioButtonVNATcpIP);
+        this.grouper1.Controls.Add(this.radioButtonVNANI);
+        this.grouper1.Controls.Add(this.label48);
+        this.grouper1.Controls.Add(this.comboBoxVNAType);
+        this.grouper1.Controls.Add(this.textBoxVNATcpIP);
+        this.grouper1.CustomGroupBoxColor = Color.White;
+        this.grouper1.GroupImage = (Image) manager.GetObject("grouper1.GroupImage");
+        this.grouper1.GroupTitle = "接收仪表";
+        this.grouper1.Location = new Point(0x10, 15);
+        this.grouper1.Name = "grouper1";
+        this.grouper1.Padding = new Padding(20);
+        this.grouper1.PaintGroupBox = false;
+        this.grouper1.RoundCorners = 10;
+        this.grouper1.ShadowColor = Color.DarkGray;
+        this.grouper1.ShadowControl = true;
+        this.grouper1.ShadowThickness = 3;
+        this.grouper1.Size = new Size(0x16f, 0x92);
+        this.grouper1.TabIndex = 0x15;
+        this.textBoxVNAUsbGpib.Font = new Font("宋体", 10f);
+        this.textBoxVNAUsbGpib.Location = new Point(0x81, 0x70);
+        this.textBoxVNAUsbGpib.Name = "textBoxVNAUsbGpib";
+        this.textBoxVNAUsbGpib.Size = new Size(0x30, 0x17);
+        this.textBoxVNAUsbGpib.TabIndex = 0x13;
+        this.textBoxVNAUsbGpib.Text = "17";
+        this.textBoxVNAUsbGpib.TextAlign = HorizontalAlignment.Center;
+        this.radioButtonVNAUsbGpib.AutoSize = true;
+        this.radioButtonVNAUsbGpib.Font = new Font("宋体", 10f);
+        this.radioButtonVNAUsbGpib.Location = new Point(0x2a, 0x72);
+        this.radioButtonVNAUsbGpib.Name = "radioButtonVNAUsbGpib";
+        this.radioButtonVNAUsbGpib.Size = new Size(0x51, 0x12);
+        this.radioButtonVNAUsbGpib.TabIndex = 0x12;
+        this.radioButtonVNAUsbGpib.Text = "USB-GPIB";
+        this.radioButtonVNAUsbGpib.UseVisualStyleBackColor = true;
+        this.textBoxVNANI.Font = new Font("宋体", 10f);
+        this.textBoxVNANI.Location = new Point(0x81, 0x53);
+        this.textBoxVNANI.Name = "textBoxVNANI";
+        this.textBoxVNANI.Size = new Size(0x31, 0x17);
+        this.textBoxVNANI.TabIndex = 0x11;
+        this.textBoxVNANI.Text = "18";
+        this.textBoxVNANI.TextAlign = HorizontalAlignment.Center;
+        this.radioButtonVNATcpIP.AutoSize = true;
+        this.radioButtonVNATcpIP.Checked = true;
+        this.radioButtonVNATcpIP.Font = new Font("宋体", 10f);
+        this.radioButtonVNATcpIP.Location = new Point(0x2a, 0x39);
+        this.radioButtonVNATcpIP.Name = "radioButtonVNATcpIP";
+        this.radioButtonVNATcpIP.Size = new Size(60, 0x12);
+        this.radioButtonVNATcpIP.TabIndex = 0;
+        this.radioButtonVNATcpIP.TabStop = true;
+        this.radioButtonVNATcpIP.Text = "TCPIP";
+        this.radioButtonVNATcpIP.UseVisualStyleBackColor = true;
+        this.radioButtonVNANI.AutoSize = true;
+        this.radioButtonVNANI.Font = new Font("宋体", 10f);
+        this.radioButtonVNANI.Location = new Point(0x2a, 0x54);
+        this.radioButtonVNANI.Name = "radioButtonVNANI";
+        this.radioButtonVNANI.Size = new Size(0x58, 0x12);
+        this.radioButtonVNANI.TabIndex = 0x10;
+        this.radioButtonVNANI.Text = "GPIB-GPIB";
+        this.radioButtonVNANI.UseVisualStyleBackColor = true;
+        this.label48.AutoSize = true;
+        this.label48.Font = new Font("宋体", 10f);
+        this.label48.ForeColor = Color.Black;
+        this.label48.Location = new Point(0x3b, 0x21);
+        this.label48.Name = "label48";
+        this.label48.Size = new Size(0x31, 14);
+        this.label48.TabIndex = 11;
+        this.label48.Text = "型号：";
+        this.comboBoxVNAType.Font = new Font("宋体", 10f);
+        this.comboBoxVNAType.FormattingEnabled = true;
+        this.comboBoxVNAType.Items.AddRange(new object[] { "E5070/5071B", "E8753C/D" });
+        this.comboBoxVNAType.Location = new Point(0x6c, 30);
+        this.comboBoxVNAType.Name = "comboBoxVNAType";
+        this.comboBoxVNAType.Size = new Size(0x5d, 0x15);
+        this.comboBoxVNAType.TabIndex = 12;
+        this.textBoxVNATcpIP.Font = new Font("宋体", 10f);
+        this.textBoxVNATcpIP.Location = new Point(0x6c, 0x37);
+        this.textBoxVNATcpIP.Name = "textBoxVNATcpIP";
+        this.textBoxVNATcpIP.Size = new Size(0x7f, 0x17);
+        this.textBoxVNATcpIP.TabIndex = 15;
+        this.textBoxVNATcpIP.Text = "192.168.1.102";
+        this.textBoxVNATcpIP.TextAlign = HorizontalAlignment.Center;
+        this.label10.AutoSize = true;
+        this.label10.Font = new Font("宋体", 10f);
+        this.label10.ForeColor = Color.Red;
+        this.label10.Location = new Point(0x60, 0xa4);
+        this.label10.Name = "label10";
+        this.label10.Size = new Size(0x11f, 14);
+        this.label10.TabIndex = 20;
+        this.label10.Text = "(注意:TCPIP和USB方式只适用Agilent的IO库)";
+        this.tabPage2.Controls.Add(this.grouper4);
+        this.tabPage2.Controls.Add(this.grouper3);
+        this.tabPage2.Location = new Point(4, 0x16);
+        this.tabPage2.Name = "tabPage2";
+        this.tabPage2.Padding = new Padding(3);
+        this.tabPage2.Size = new Size(0x18f, 340);
+        this.tabPage2.TabIndex = 1;
+        this.tabPage2.Text = "串 口";
+        this.tabPage2.UseVisualStyleBackColor = true;
+        this.grouper4.BackgroundColor = Color.White;
+        this.grouper4.BackgroundGradientColor = Color.White;
+        this.grouper4.BackgroundGradientMode = Grouper.GroupBoxGradientMode.None;
+        this.grouper4.BorderColor = Color.Black;
+        this.grouper4.BorderThickness = 1f;
+        this.grouper4.Controls.Add(this.numericUpDown3);
+        this.grouper4.Controls.Add(this.checkBoxComFSdSwitch);
+        this.grouper4.Controls.Add(this.numericUpDownDF);
+        this.grouper4.Controls.Add(this.numericUpDownGF);
+        this.grouper4.Controls.Add(this.checkBoxComDF);
+        this.grouper4.Controls.Add(this.checkBoxComGF);
+        this.grouper4.Controls.Add(this.checkBoxComSwitch);
+        this.grouper4.Controls.Add(this.numericUpDownSwitch);
+        this.grouper4.CustomGroupBoxColor = Color.White;
+        this.grouper4.GroupImage = null;
+        this.grouper4.GroupTitle = "射频通信";
+        this.grouper4.Location = new Point(0x10, 300);
+        this.grouper4.Name = "grouper4";
+        this.grouper4.Padding = new Padding(20);
+        this.grouper4.PaintGroupBox = false;
+        this.grouper4.RoundCorners = 10;
+        this.grouper4.ShadowColor = Color.DarkGray;
+        this.grouper4.ShadowControl = false;
+        this.grouper4.ShadowThickness = 3;
+        this.grouper4.Size = new Size(0x170, 0x5f);
+        this.grouper4.TabIndex = 0x30;
+        this.grouper4.Visible = false;
+        this.numericUpDown3.Location = new Point(0xb3, 60);
+        int[] bits = new int[4];
+        bits[0] = 30;
+        this.numericUpDown3.Maximum = new decimal(bits);
+        this.numericUpDown3.Name = "numericUpDown3";
+        this.numericUpDown3.Size = new Size(0x35, 0x16);
+        this.numericUpDown3.TabIndex = 0x37;
+        this.numericUpDown3.TextAlign = HorizontalAlignment.Center;
+        bits = new int[4];
+        bits[0] = 7;
+        this.numericUpDown3.Value = new decimal(bits);
+        this.checkBoxComFSdSwitch.AutoSize = true;
+        this.checkBoxComFSdSwitch.Cursor = Cursors.Default;
+        this.checkBoxComFSdSwitch.Location = new Point(0x17, 0x41);
+        this.checkBoxComFSdSwitch.Name = "checkBoxComFSdSwitch";
+        this.checkBoxComFSdSwitch.Size = new Size(150, 0x11);
+        this.checkBoxComFSdSwitch.TabIndex = 0x36;
+        this.checkBoxComFSdSwitch.Text = "电子开关（远发射）:";
+        this.checkBoxComFSdSwitch.UseVisualStyleBackColor = true;
+        this.numericUpDownDF.Location = new Point(120, 0x8a);
+        this.numericUpDownDF.Name = "numericUpDownDF";
+        this.numericUpDownDF.Size = new Size(0x35, 0x16);
+        this.numericUpDownDF.TabIndex = 3;
+        this.numericUpDownDF.TextAlign = HorizontalAlignment.Center;
+        this.numericUpDownGF.Location = new Point(0x124, 0x20);
+        bits = new int[4];
+        bits[0] = 30;
+        this.numericUpDownGF.Maximum = new decimal(bits);
+        this.numericUpDownGF.Name = "numericUpDownGF";
+        this.numericUpDownGF.Size = new Size(0x34, 0x16);
+        this.numericUpDownGF.TabIndex = 0x2c;
+        this.numericUpDownGF.TextAlign = HorizontalAlignment.Center;
+        bits = new int[4];
+        bits[0] = 8;
+        this.numericUpDownGF.Value = new decimal(bits);
+        this.checkBoxComDF.AutoSize = true;
+        this.checkBoxComDF.Location = new Point(0x17, 0x8e);
+        this.checkBoxComDF.Name = "checkBoxComDF";
+        this.checkBoxComDF.Size = new Size(0x5b, 0x11);
+        this.checkBoxComDF.TabIndex = 3;
+        this.checkBoxComDF.Text = "低噪放串口";
+        this.checkBoxComDF.UseVisualStyleBackColor = true;
+        this.checkBoxComDF.CheckedChanged += new EventHandler(this.CheckedComDF_CheckedChanged);
+        this.checkBoxComGF.AutoSize = true;
+        this.checkBoxComGF.Cursor = Cursors.Default;
+        this.checkBoxComGF.Location = new Point(0xc0, 0x24);
+        this.checkBoxComGF.Name = "checkBoxComGF";
+        this.checkBoxComGF.Size = new Size(0x55, 0x11);
+        this.checkBoxComGF.TabIndex = 0x35;
+        this.checkBoxComGF.Text = "功放串口:";
+        this.checkBoxComGF.UseVisualStyleBackColor = true;
+        this.checkBoxComGF.CheckedChanged += new EventHandler(this.checkBoxComGF_CheckedChanged);
+        this.checkBoxComSwitch.AutoSize = true;
+        this.checkBoxComSwitch.Cursor = Cursors.Default;
+        this.checkBoxComSwitch.Location = new Point(0x18, 0x24);
+        this.checkBoxComSwitch.Name = "checkBoxComSwitch";
+        this.checkBoxComSwitch.Size = new Size(0x55, 0x11);
+        this.checkBoxComSwitch.TabIndex = 0x34;
+        this.checkBoxComSwitch.Text = "电子开关:";
+        this.checkBoxComSwitch.UseVisualStyleBackColor = true;
+        this.checkBoxComSwitch.CheckedChanged += new EventHandler(this.checkBoxComSwitch_CheckedChanged);
+        this.numericUpDownSwitch.Location = new Point(0x73, 0x1f);
+        bits = new int[4];
+        bits[0] = 30;
+        this.numericUpDownSwitch.Maximum = new decimal(bits);
+        this.numericUpDownSwitch.Name = "numericUpDownSwitch";
+        this.numericUpDownSwitch.Size = new Size(0x35, 0x16);
+        this.numericUpDownSwitch.TabIndex = 0x2a;
+        this.numericUpDownSwitch.TextAlign = HorizontalAlignment.Center;
+        bits = new int[4];
+        bits[0] = 7;
+        this.numericUpDownSwitch.Value = new decimal(bits);
+        this.grouper3.BackgroundColor = Color.White;
+        this.grouper3.BackgroundGradientColor = Color.White;
+        this.grouper3.BackgroundGradientMode = Grouper.GroupBoxGradientMode.None;
+        this.grouper3.BorderColor = Color.Black;
+        this.grouper3.BorderThickness = 1f;
+        this.grouper3.Controls.Add(this.comboBoxPt);
+        this.grouper3.Controls.Add(this.numericUpDown4);
+        this.grouper3.Controls.Add(this.checkBoxComPt);
+        this.grouper3.Controls.Add(this.numericUpDownFSd);
+        this.grouper3.Controls.Add(this.numericUpDownFAz);
+        this.grouper3.Controls.Add(this.checkBoxComFSd);
+        this.grouper3.Controls.Add(this.comboBoxFSd);
+        this.grouper3.Controls.Add(this.comboBoxFAz);
+        this.grouper3.Controls.Add(this.checkBoxComFAz);
+        this.grouper3.Controls.Add(this.comboBoxAz);
+        this.grouper3.Controls.Add(this.numericUpDownEl);
+        this.grouper3.Controls.Add(this.numericUpDownDn);
+        this.grouper3.Controls.Add(this.comboBoxRv);
+        this.grouper3.Controls.Add(this.numericUpDownScm);
+        this.grouper3.Controls.Add(this.comboBoxNSd);
+        this.grouper3.Controls.Add(this.numericUpDownAz);
+        this.grouper3.Controls.Add(this.comboBoxEl);
+        this.grouper3.Controls.Add(this.checkBoxComScm);
+        this.grouper3.Controls.Add(this.comboBoxDn);
+        this.grouper3.Controls.Add(this.checkBoxComAz);
+        this.grouper3.Controls.Add(this.checkBoxComDn);
+        this.grouper3.Controls.Add(this.numericUpDownNSd);
+        this.grouper3.Controls.Add(this.checkBoxComEl);
+        this.grouper3.Controls.Add(this.numericUpDownRv);
+        this.grouper3.Controls.Add(this.checkBoxComRv);
+        this.grouper3.Controls.Add(this.checkBoxComNSd);
+        this.grouper3.CustomGroupBoxColor = Color.White;
+        this.grouper3.GroupImage = null;
+        this.grouper3.GroupTitle = "转台通信";
+        this.grouper3.Location = new Point(0x10, 8);
+        this.grouper3.Name = "grouper3";
+        this.grouper3.Padding = new Padding(20);
+        this.grouper3.PaintGroupBox = false;
+        this.grouper3.RoundCorners = 10;
+        this.grouper3.ShadowColor = Color.DarkGray;
+        this.grouper3.ShadowControl = false;
+        this.grouper3.ShadowThickness = 3;
+        this.grouper3.Size = new Size(0x170, 0x114);
+        this.grouper3.TabIndex = 0x2f;
+        this.comboBoxPt.FormattingEnabled = true;
+        this.comboBoxPt.Location = new Point(0x8d, 0xf4);
+        this.comboBoxPt.Name = "comboBoxPt";
+        this.comboBoxPt.Size = new Size(0x34, 0x15);
+        this.comboBoxPt.TabIndex = 0x44;
+        this.numericUpDown4.Location = new Point(0xce, 0xf3);
+        bits = new int[4];
+        bits[0] = 30;
+        this.numericUpDown4.Maximum = new decimal(bits);
+        this.numericUpDown4.Name = "numericUpDown4";
+        this.numericUpDown4.Size = new Size(0x35, 0x16);
+        this.numericUpDown4.TabIndex = 0x43;
+        this.numericUpDown4.TextAlign = HorizontalAlignment.Center;
+        bits = new int[4];
+        bits[0] = 4;
+        this.numericUpDown4.Value = new decimal(bits);
+        this.checkBoxComPt.Checked = true;
+        this.checkBoxComPt.CheckState = CheckState.Checked;
+        this.checkBoxComPt.Cursor = Cursors.Default;
+        this.checkBoxComPt.Location = new Point(0x18, 0xf8);
+        this.checkBoxComPt.Name = "checkBoxComPt";
+        this.checkBoxComPt.Size = new Size(0x62, 0x11);
+        this.checkBoxComPt.TabIndex = 0x31;
+        this.checkBoxComPt.Text = "平移轴控制:";
+        this.checkBoxComPt.UseVisualStyleBackColor = true;
+        this.checkBoxComPt.CheckedChanged += new EventHandler(this.checkBoxComPt_CheckedChanged);
+        this.numericUpDownFSd.Location = new Point(0xce, 0xd4);
+        bits = new int[4];
+        bits[0] = 30;
+        this.numericUpDownFSd.Maximum = new decimal(bits);
+        this.numericUpDownFSd.Name = "numericUpDownFSd";
+        this.numericUpDownFSd.Size = new Size(0x35, 0x16);
+        this.numericUpDownFSd.TabIndex = 0x42;
+        this.numericUpDownFSd.TextAlign = HorizontalAlignment.Center;
+        bits = new int[4];
+        bits[0] = 4;
+        this.numericUpDownFSd.Value = new decimal(bits);
+        this.numericUpDownFAz.Location = new Point(0xce, 0xb5);
+        bits = new int[4];
+        bits[0] = 30;
+        this.numericUpDownFAz.Maximum = new decimal(bits);
+        this.numericUpDownFAz.Name = "numericUpDownFAz";
+        this.numericUpDownFAz.Size = new Size(0x35, 0x16);
+        this.numericUpDownFAz.TabIndex = 0x41;
+        this.numericUpDownFAz.TextAlign = HorizontalAlignment.Center;
+        bits = new int[4];
+        bits[0] = 4;
+        this.numericUpDownFAz.Value = new decimal(bits);
+        this.checkBoxComFSd.AutoSize = true;
+        this.checkBoxComFSd.Location = new Point(0x18, 0xd8);
+        this.checkBoxComFSd.Name = "checkBoxComFSd";
+        this.checkBoxComFSd.Size = new Size(0x6f, 0x11);
+        this.checkBoxComFSd.TabIndex = 0x40;
+        this.checkBoxComFSd.Text = "远发射极化轴:";
+        this.checkBoxComFSd.UseVisualStyleBackColor = true;
+        this.comboBoxFSd.FormattingEnabled = true;
+        this.comboBoxFSd.Location = new Point(0x8d, 0xd4);
+        this.comboBoxFSd.Name = "comboBoxFSd";
+        this.comboBoxFSd.Size = new Size(0x34, 0x15);
+        this.comboBoxFSd.TabIndex = 0x3f;
+        this.comboBoxFAz.FormattingEnabled = true;
+        this.comboBoxFAz.Location = new Point(0x8d, 0xb5);
+        this.comboBoxFAz.Name = "comboBoxFAz";
+        this.comboBoxFAz.Size = new Size(50, 0x15);
+        this.comboBoxFAz.TabIndex = 0x3e;
+        this.checkBoxComFAz.AutoSize = true;
+        this.checkBoxComFAz.Location = new Point(0x18, 0xb9);
+        this.checkBoxComFAz.Name = "checkBoxComFAz";
+        this.checkBoxComFAz.Size = new Size(0x6f, 0x11);
+        this.checkBoxComFAz.TabIndex = 0x3d;
+        this.checkBoxComFAz.Text = "远发射方位轴:";
+        this.checkBoxComFAz.UseVisualStyleBackColor = true;
+        this.comboBoxAz.DropDownStyle = ComboBoxStyle.DropDownList;
+        this.comboBoxAz.Enabled = false;
+        this.comboBoxAz.FormattingEnabled = true;
+        this.comboBoxAz.Items.AddRange(new object[] { "编码", "脉冲" });
+        this.comboBoxAz.Location = new Point(0x7c, 0x36);
+        this.comboBoxAz.Name = "comboBoxAz";
+        this.comboBoxAz.Size = new Size(0x34, 0x15);
+        this.comboBoxAz.TabIndex = 0x36;
+        this.comboBoxAz.SelectedIndexChanged += new EventHandler(this.comboBoxAz_SelectedIndexChanged);
+        this.numericUpDownEl.Location = new Point(0xbd, 0x70);
+        bits = new int[4];
+        bits[0] = 30;
+        this.numericUpDownEl.Maximum = new decimal(bits);
+        this.numericUpDownEl.Name = "numericUpDownEl";
+        this.numericUpDownEl.Size = new Size(0x35, 0x16);
+        this.numericUpDownEl.TabIndex = 0x22;
+        this.numericUpDownEl.TextAlign = HorizontalAlignment.Center;
+        bits = new int[4];
+        bits[0] = 3;
+        this.numericUpDownEl.Value = new decimal(bits);
+        this.numericUpDownDn.Location = new Point(0xbd, 0x52);
+        bits = new int[4];
+        bits[0] = 30;
+        this.numericUpDownDn.Maximum = new decimal(bits);
+        this.numericUpDownDn.Name = "numericUpDownDn";
+        this.numericUpDownDn.Size = new Size(0x35, 0x16);
+        this.numericUpDownDn.TabIndex = 0x20;
+        this.numericUpDownDn.TextAlign = HorizontalAlignment.Center;
+        bits = new int[4];
+        bits[0] = 5;
+        this.numericUpDownDn.Value = new decimal(bits);
+        this.comboBoxRv.DropDownStyle = ComboBoxStyle.DropDownList;
+        this.comboBoxRv.FormattingEnabled = true;
+        this.comboBoxRv.Items.AddRange(new object[] { "编码", "脉冲" });
+        this.comboBoxRv.Location = new Point(0x7f, 0x113);
+        this.comboBoxRv.Name = "comboBoxRv";
+        this.comboBoxRv.Size = new Size(0x34, 0x15);
+        this.comboBoxRv.TabIndex = 0x3a;
+        this.comboBoxRv.SelectedIndexChanged += new EventHandler(this.comboBoxRv_SelectedIndexChanged);
+        this.numericUpDownScm.Location = new Point(0x7c, 0x19);
+        bits = new int[4];
+        bits[0] = 30;
+        this.numericUpDownScm.Maximum = new decimal(bits);
+        this.numericUpDownScm.Name = "numericUpDownScm";
+        this.numericUpDownScm.Size = new Size(0x35, 0x16);
+        this.numericUpDownScm.TabIndex = 0x1c;
+        this.numericUpDownScm.TextAlign = HorizontalAlignment.Center;
+        bits = new int[4];
+        bits[0] = 1;
+        this.numericUpDownScm.Value = new decimal(bits);
+        this.comboBoxNSd.DropDownStyle = ComboBoxStyle.DropDownList;
+        this.comboBoxNSd.FormattingEnabled = true;
+        this.comboBoxNSd.Items.AddRange(new object[] { "编码", "脉冲" });
+        this.comboBoxNSd.Location = new Point(0x8d, 0x91);
+        this.comboBoxNSd.Name = "comboBoxNSd";
+        this.comboBoxNSd.Size = new Size(0x34, 0x15);
+        this.comboBoxNSd.TabIndex = 0x39;
+        this.comboBoxNSd.SelectedIndexChanged += new EventHandler(this.comboBoxSd_SelectedIndexChanged);
+        this.numericUpDownAz.Location = new Point(0xbd, 0x34);
+        bits = new int[4];
+        bits[0] = 30;
+        this.numericUpDownAz.Maximum = new decimal(bits);
+        this.numericUpDownAz.Name = "numericUpDownAz";
+        this.numericUpDownAz.Size = new Size(0x35, 0x16);
+        this.numericUpDownAz.TabIndex = 30;
+        this.numericUpDownAz.TextAlign = HorizontalAlignment.Center;
+        bits = new int[4];
+        bits[0] = 2;
+        this.numericUpDownAz.Value = new decimal(bits);
+        this.comboBoxEl.DropDownStyle = ComboBoxStyle.DropDownList;
+        this.comboBoxEl.FormattingEnabled = true;
+        this.comboBoxEl.Items.AddRange(new object[] { "编码", "脉冲" });
+        this.comboBoxEl.Location = new Point(0x7c, 0x70);
+        this.comboBoxEl.Name = "comboBoxEl";
+        this.comboBoxEl.Size = new Size(0x34, 0x15);
+        this.comboBoxEl.TabIndex = 0x38;
+        this.comboBoxEl.SelectedIndexChanged += new EventHandler(this.comboBoxEl_SelectedIndexChanged);
+        this.checkBoxComScm.AutoSize = true;
+        this.checkBoxComScm.Checked = true;
+        this.checkBoxComScm.CheckState = CheckState.Checked;
+        this.checkBoxComScm.Cursor = Cursors.Default;
+        this.checkBoxComScm.Location = new Point(0x18, 30);
+        this.checkBoxComScm.Name = "checkBoxComScm";
+        this.checkBoxComScm.Size = new Size(0x55, 0x11);
+        this.checkBoxComScm.TabIndex = 0x2d;
+        this.checkBoxComScm.Text = "串口控制:";
+        this.checkBoxComScm.UseVisualStyleBackColor = true;
+        this.checkBoxComScm.CheckedChanged += new EventHandler(this.checkBoxComScm_CheckedChanged);
+        this.comboBoxDn.DropDownStyle = ComboBoxStyle.DropDownList;
+        this.comboBoxDn.FormattingEnabled = true;
+        this.comboBoxDn.Items.AddRange(new object[] { "编码", "脉冲" });
+        this.comboBoxDn.Location = new Point(0x7c, 0x54);
+        this.comboBoxDn.Name = "comboBoxDn";
+        this.comboBoxDn.Size = new Size(0x34, 0x15);
+        this.comboBoxDn.TabIndex = 0x37;
+        this.comboBoxDn.SelectedIndexChanged += new EventHandler(this.comboBoxDn_SelectedIndexChanged);
+        this.checkBoxComAz.AutoSize = true;
+        this.checkBoxComAz.Checked = true;
+        this.checkBoxComAz.CheckState = CheckState.Checked;
+        this.checkBoxComAz.Cursor = Cursors.Default;
+        this.checkBoxComAz.Location = new Point(0x18, 0x3b);
+        this.checkBoxComAz.Name = "checkBoxComAz";
+        this.checkBoxComAz.Size = new Size(0x63, 0x11);
+        this.checkBoxComAz.TabIndex = 0x2e;
+        this.checkBoxComAz.Text = "上方位轴  :";
+        this.checkBoxComAz.UseVisualStyleBackColor = true;
+        this.checkBoxComAz.CheckedChanged += new EventHandler(this.checkBoxComAz_CheckedChanged);
+        this.checkBoxComDn.AutoSize = true;
+        this.checkBoxComDn.Checked = true;
+        this.checkBoxComDn.CheckState = CheckState.Checked;
+        this.checkBoxComDn.Cursor = Cursors.Default;
+        this.checkBoxComDn.Location = new Point(0x18, 0x57);
+        this.checkBoxComDn.Name = "checkBoxComDn";
+        this.checkBoxComDn.Size = new Size(0x63, 0x11);
+        this.checkBoxComDn.TabIndex = 0x2f;
+        this.checkBoxComDn.Text = "下方位轴  :";
+        this.checkBoxComDn.UseVisualStyleBackColor = true;
+        this.checkBoxComDn.CheckedChanged += new EventHandler(this.checkBoxComDn_CheckedChanged);
+        this.numericUpDownNSd.Location = new Point(0xce, 0x8f);
+        bits = new int[4];
+        bits[0] = 30;
+        this.numericUpDownNSd.Maximum = new decimal(bits);
+        this.numericUpDownNSd.Name = "numericUpDownNSd";
+        this.numericUpDownNSd.Size = new Size(0x35, 0x16);
+        this.numericUpDownNSd.TabIndex = 40;
+        this.numericUpDownNSd.TextAlign = HorizontalAlignment.Center;
+        bits = new int[4];
+        bits[0] = 4;
+        this.numericUpDownNSd.Value = new decimal(bits);
+        this.checkBoxComEl.AutoSize = true;
+        this.checkBoxComEl.Checked = true;
+        this.checkBoxComEl.CheckState = CheckState.Checked;
+        this.checkBoxComEl.Cursor = Cursors.Default;
+        this.checkBoxComEl.Location = new Point(0x18, 0x75);
+        this.checkBoxComEl.Name = "checkBoxComEl";
+        this.checkBoxComEl.Size = new Size(0x62, 0x11);
+        this.checkBoxComEl.TabIndex = 0x30;
+        this.checkBoxComEl.Text = "接收极化轴:";
+        this.checkBoxComEl.UseVisualStyleBackColor = true;
+        this.checkBoxComEl.CheckedChanged += new EventHandler(this.checkBoxComEl_CheckedChanged);
+        this.numericUpDownRv.Location = new Point(0xc0, 0x113);
+        bits = new int[4];
+        bits[0] = 30;
+        this.numericUpDownRv.Maximum = new decimal(bits);
+        this.numericUpDownRv.Name = "numericUpDownRv";
+        this.numericUpDownRv.Size = new Size(0x35, 0x16);
+        this.numericUpDownRv.TabIndex = 0x26;
+        this.numericUpDownRv.TextAlign = HorizontalAlignment.Center;
+        bits = new int[4];
+        bits[0] = 6;
+        this.numericUpDownRv.Value = new decimal(bits);
+        this.checkBoxComRv.AutoSize = true;
+        this.checkBoxComRv.Checked = true;
+        this.checkBoxComRv.CheckState = CheckState.Checked;
+        this.checkBoxComRv.Cursor = Cursors.Default;
+        this.checkBoxComRv.Location = new Point(0x1b, 280);
+        this.checkBoxComRv.Name = "checkBoxComRv";
+        this.checkBoxComRv.Size = new Size(0x62, 0x11);
+        this.checkBoxComRv.TabIndex = 50;
+        this.checkBoxComRv.Text = "接收极化轴:";
+        this.checkBoxComRv.UseVisualStyleBackColor = true;
+        this.checkBoxComRv.CheckedChanged += new EventHandler(this.checkBoxComRv_CheckedChanged);
+        this.checkBoxComNSd.AutoSize = true;
+        this.checkBoxComNSd.Checked = true;
+        this.checkBoxComNSd.CheckState = CheckState.Checked;
+        this.checkBoxComNSd.Cursor = Cursors.Default;
+        this.checkBoxComNSd.Location = new Point(0x17, 0x95);
+        this.checkBoxComNSd.Name = "checkBoxComNSd";
+        this.checkBoxComNSd.Size = new Size(0x6f, 0x11);
+        this.checkBoxComNSd.TabIndex = 0x33;
+        this.checkBoxComNSd.Text = "近发射极化轴:";
+        this.checkBoxComNSd.UseVisualStyleBackColor = true;
+        this.checkBoxComNSd.CheckedChanged += new EventHandler(this.checkBoxComSd_CheckedChanged);
+        this.tabPage4.Controls.Add(this.grouper6);
+        this.tabPage4.Controls.Add(this.grouper5);
+        this.tabPage4.Controls.Add(this.checkBox10);
+        this.tabPage4.Location = new Point(4, 0x16);
+        this.tabPage4.Name = "tabPage4";
+        this.tabPage4.Padding = new Padding(3);
+        this.tabPage4.Size = new Size(0x18f, 340);
+        this.tabPage4.TabIndex = 3;
+        this.tabPage4.Text = "画  图";
+        this.tabPage4.UseVisualStyleBackColor = true;
+        this.grouper6.BackgroundColor = Color.White;
+        this.grouper6.BackgroundGradientColor = Color.White;
+        this.grouper6.BackgroundGradientMode = Grouper.GroupBoxGradientMode.None;
+        this.grouper6.BorderColor = Color.Black;
+        this.grouper6.BorderThickness = 1f;
+        this.grouper6.Controls.Add(this.checkBox9);
+        this.grouper6.Controls.Add(this.MapColor1);
+        this.grouper6.Controls.Add(this.checkBox8);
+        this.grouper6.Controls.Add(this.MapColor7);
+        this.grouper6.Controls.Add(this.checkBox7);
+        this.grouper6.Controls.Add(this.MapColor8);
+        this.grouper6.Controls.Add(this.checkBox6);
+        this.grouper6.Controls.Add(this.MapColor9);
+        this.grouper6.Controls.Add(this.checkBox5);
+        this.grouper6.Controls.Add(this.MapColor4);
+        this.grouper6.Controls.Add(this.checkBox4);
+        this.grouper6.Controls.Add(this.MapColor5);
+        this.grouper6.Controls.Add(this.checkBox3);
+        this.grouper6.Controls.Add(this.MapColor6);
+        this.grouper6.Controls.Add(this.checkBox2);
+        this.grouper6.Controls.Add(this.MapColor2);
+        this.grouper6.Controls.Add(this.checkBox1);
+        this.grouper6.Controls.Add(this.MapColor3);
+        this.grouper6.Controls.Add(this.LineColor);
+        this.grouper6.Controls.Add(this.label23);
+        this.grouper6.Controls.Add(this.label22);
+        this.grouper6.Controls.Add(this.BackColor1);
+        this.grouper6.CustomGroupBoxColor = Color.White;
+        this.grouper6.GroupImage = null;
+        this.grouper6.GroupTitle = "颜色";
+        this.grouper6.Location = new Point(0x18, 0xa7);
+        this.grouper6.Name = "grouper6";
+        this.grouper6.Padding = new Padding(20);
+        this.grouper6.PaintGroupBox = false;
+        this.grouper6.RoundCorners = 10;
+        this.grouper6.ShadowColor = Color.DarkGray;
+        this.grouper6.ShadowControl = false;
+        this.grouper6.ShadowThickness = 3;
+        this.grouper6.Size = new Size(0x15d, 0x91);
+        this.grouper6.TabIndex = 30;
+        this.checkBox9.AutoSize = true;
+        this.checkBox9.Location = new Point(0xe7, 0x79);
+        this.checkBox9.Name = "checkBox9";
+        this.checkBox9.Size = new Size(0x42, 0x11);
+        this.checkBox9.TabIndex = 0x23;
+        this.checkBox9.Text = "频点9:";
+        this.checkBox9.UseVisualStyleBackColor = true;
+        this.MapColor1.Location = new Point(70, 0x37);
+        this.MapColor1.Name = "MapColor1";
+        this.MapColor1.Size = new Size(0x2d, 0x16);
+        this.MapColor1.TabIndex = 0x12;
+        this.MapColor1.Click += new EventHandler(this.MapColor1_Click);
+        this.checkBox8.AutoSize = true;
+        this.checkBox8.Location = new Point(0xe7, 0x58);
+        this.checkBox8.Name = "checkBox8";
+        this.checkBox8.Size = new Size(0x42, 0x11);
+        this.checkBox8.TabIndex = 0x22;
+        this.checkBox8.Text = "频点6:";
+        this.checkBox8.UseVisualStyleBackColor = true;
+        this.MapColor7.Location = new Point(70, 0x74);
+        this.MapColor7.Name = "MapColor7";
+        this.MapColor7.Size = new Size(0x2d, 0x16);
+        this.MapColor7.TabIndex = 6;
+        this.MapColor7.Click += new EventHandler(this.MapColor7_Click);
+        this.checkBox7.AutoSize = true;
+        this.checkBox7.Location = new Point(0xe7, 0x3a);
+        this.checkBox7.Name = "checkBox7";
+        this.checkBox7.Size = new Size(0x42, 0x11);
+        this.checkBox7.TabIndex = 0x21;
+        this.checkBox7.Text = "频点3:";
+        this.checkBox7.UseVisualStyleBackColor = true;
+        this.MapColor8.Location = new Point(0xb9, 0x76);
+        this.MapColor8.Name = "MapColor8";
+        this.MapColor8.Size = new Size(0x2d, 0x16);
+        this.MapColor8.TabIndex = 8;
+        this.MapColor8.Click += new EventHandler(this.MapColor8_Click);
+        this.checkBox6.AutoSize = true;
+        this.checkBox6.Location = new Point(0x75, 120);
+        this.checkBox6.Name = "checkBox6";
+        this.checkBox6.Size = new Size(0x42, 0x11);
+        this.checkBox6.TabIndex = 0x20;
+        this.checkBox6.Text = "频点8:";
+        this.checkBox6.UseVisualStyleBackColor = true;
+        this.MapColor9.Location = new Point(0x12b, 0x74);
+        this.MapColor9.Name = "MapColor9";
+        this.MapColor9.Size = new Size(0x2d, 0x16);
+        this.MapColor9.TabIndex = 10;
+        this.MapColor9.Click += new EventHandler(this.MapColor9_Click);
+        this.checkBox5.AutoSize = true;
+        this.checkBox5.Location = new Point(0x75, 0x58);
+        this.checkBox5.Name = "checkBox5";
+        this.checkBox5.Size = new Size(0x42, 0x11);
+        this.checkBox5.TabIndex = 0x1f;
+        this.checkBox5.Text = "频点5:";
+        this.checkBox5.UseVisualStyleBackColor = true;
+        this.MapColor4.Location = new Point(70, 0x53);
+        this.MapColor4.Name = "MapColor4";
+        this.MapColor4.Size = new Size(0x2d, 0x16);
+        this.MapColor4.TabIndex = 12;
+        this.MapColor4.Click += new EventHandler(this.MapColor4_Click);
+        this.checkBox4.AutoSize = true;
+        this.checkBox4.Location = new Point(0x75, 0x3a);
+        this.checkBox4.Name = "checkBox4";
+        this.checkBox4.Size = new Size(0x42, 0x11);
+        this.checkBox4.TabIndex = 30;
+        this.checkBox4.Text = "频点2:";
+        this.checkBox4.UseVisualStyleBackColor = true;
+        this.MapColor5.Location = new Point(0xb9, 0x56);
+        this.MapColor5.Name = "MapColor5";
+        this.MapColor5.Size = new Size(0x2d, 0x16);
+        this.MapColor5.TabIndex = 14;
+        this.MapColor5.Click += new EventHandler(this.MapColor5_Click);
+        this.checkBox3.AutoSize = true;
+        this.checkBox3.Location = new Point(4, 120);
+        this.checkBox3.Name = "checkBox3";
+        this.checkBox3.Size = new Size(0x42, 0x11);
+        this.checkBox3.TabIndex = 0x1d;
+        this.checkBox3.Text = "频点7:";
+        this.checkBox3.UseVisualStyleBackColor = true;
+        this.MapColor6.Location = new Point(0x12b, 0x58);
+        this.MapColor6.Name = "MapColor6";
+        this.MapColor6.Size = new Size(0x2d, 0x16);
+        this.MapColor6.TabIndex = 0x10;
+        this.MapColor6.Click += new EventHandler(this.MapColor6_Click);
+        this.checkBox2.AutoSize = true;
+        this.checkBox2.Location = new Point(4, 0x58);
+        this.checkBox2.Name = "checkBox2";
+        this.checkBox2.Size = new Size(0x42, 0x11);
+        this.checkBox2.TabIndex = 0x1c;
+        this.checkBox2.Text = "频点4:";
+        this.checkBox2.UseVisualStyleBackColor = true;
+        this.MapColor2.Location = new Point(0xb9, 0x37);
+        this.MapColor2.Name = "MapColor2";
+        this.MapColor2.Size = new Size(0x2d, 0x16);
+        this.MapColor2.TabIndex = 20;
+        this.MapColor2.Click += new EventHandler(this.MapColor2_Click);
+        this.checkBox1.AutoSize = true;
+        this.checkBox1.Location = new Point(4, 0x3a);
+        this.checkBox1.Name = "checkBox1";
+        this.checkBox1.Size = new Size(0x42, 0x11);
+        this.checkBox1.TabIndex = 0x1b;
+        this.checkBox1.Text = "频点1:";
+        this.checkBox1.UseVisualStyleBackColor = true;
+        this.MapColor3.Location = new Point(0x12b, 0x37);
+        this.MapColor3.Name = "MapColor3";
+        this.MapColor3.Size = new Size(0x2d, 0x16);
+        this.MapColor3.TabIndex = 0x16;
+        this.MapColor3.TextChanged += new EventHandler(this.textBox7_TextChanged);
+        this.MapColor3.Click += new EventHandler(this.MapColor3_Click);
+        this.LineColor.Location = new Point(0xf9, 0x18);
+        this.LineColor.Name = "LineColor";
+        this.LineColor.Size = new Size(0x41, 0x16);
+        this.LineColor.TabIndex = 0x1a;
+        this.LineColor.Click += new EventHandler(this.LineColor_Click);
+        this.label23.AutoSize = true;
+        this.label23.Location = new Point(0x1f, 0x1d);
+        this.label23.Name = "label23";
+        this.label23.Size = new Size(0x36, 13);
+        this.label23.TabIndex = 0x17;
+        this.label23.Text = "背  景:";
+        this.label22.AutoSize = true;
+        this.label22.Location = new Point(0xb3, 0x1d);
+        this.label22.Name = "label22";
+        this.label22.Size = new Size(0x44, 13);
+        this.label22.TabIndex = 0x19;
+        this.label22.Text = "线    条:";
+        this.BackColor1.Location = new Point(0x5e, 0x18);
+        this.BackColor1.Name = "BackColor1";
+        this.BackColor1.Size = new Size(70, 0x16);
+        this.BackColor1.TabIndex = 0x18;
+        this.BackColor1.Click += new EventHandler(this.BackColor1_Click);
+        this.grouper5.BackgroundColor = Color.White;
+        this.grouper5.BackgroundGradientColor = Color.White;
+        this.grouper5.BackgroundGradientMode = Grouper.GroupBoxGradientMode.None;
+        this.grouper5.BorderColor = Color.Black;
+        this.grouper5.BorderThickness = 1f;
+        this.grouper5.Controls.Add(this.KeduElec);
+        this.grouper5.Controls.Add(this.LeftMargin);
+        this.grouper5.Controls.Add(this.label9);
+        this.grouper5.Controls.Add(this.label3);
+        this.grouper5.Controls.Add(this.KeduAngle);
+        this.grouper5.Controls.Add(this.MinElec);
+        this.grouper5.Controls.Add(this.label11);
+        this.grouper5.Controls.Add(this.label4);
+        this.grouper5.Controls.Add(this.DownMargin);
+        this.grouper5.Controls.Add(this.MaxElec);
+        this.grouper5.Controls.Add(this.label7);
+        this.grouper5.Controls.Add(this.label6);
+        this.grouper5.Controls.Add(this.TopMargin);
+        this.grouper5.Controls.Add(this.label5);
+        this.grouper5.Controls.Add(this.label8);
+        this.grouper5.Controls.Add(this.RightMargin);
+        this.grouper5.CustomGroupBoxColor = Color.White;
+        this.grouper5.GroupImage = null;
+        this.grouper5.GroupTitle = "坐标";
+        this.grouper5.Location = new Point(0x18, 6);
+        this.grouper5.Name = "grouper5";
+        this.grouper5.Padding = new Padding(20);
+        this.grouper5.PaintGroupBox = false;
+        this.grouper5.RoundCorners = 10;
+        this.grouper5.ShadowColor = Color.DarkGray;
+        this.grouper5.ShadowControl = false;
+        this.grouper5.ShadowThickness = 3;
+        this.grouper5.Size = new Size(0x15d, 0x9b);
+        this.grouper5.TabIndex = 0x1d;
+        this.KeduElec.Location = new Point(0x100, 0x5c);
+        this.KeduElec.Name = "KeduElec";
+        this.KeduElec.Size = new Size(0x3b, 0x16);
+        this.KeduElec.TabIndex = 15;
+        this.KeduElec.Text = "10";
+        this.KeduElec.TextAlign = HorizontalAlignment.Center;
+        this.LeftMargin.Location = new Point(0x5f, 0x21);
+        this.LeftMargin.Name = "LeftMargin";
+        this.LeftMargin.Size = new Size(0x37, 0x16);
+        this.LeftMargin.TabIndex = 5;
+        this.LeftMargin.Text = "60";
+        this.LeftMargin.TextAlign = HorizontalAlignment.Center;
+        this.label9.AutoSize = true;
+        this.label9.Location = new Point(180, 0x61);
+        this.label9.Name = "label9";
+        this.label9.Size = new Size(0x42, 13);
+        this.label9.TabIndex = 14;
+        this.label9.Text = "幅度分割:";
+        this.label3.AutoSize = true;
+        this.label3.Location = new Point(180, 0x44);
+        this.label3.Name = "label3";
+        this.label3.Size = new Size(0x42, 13);
+        this.label3.TabIndex = 0;
+        this.label3.Text = "幅度下限:";
+        this.KeduAngle.Location = new Point(0x100, 0x79);
+        this.KeduAngle.Name = "KeduAngle";
+        this.KeduAngle.Size = new Size(0x3b, 0x16);
+        this.KeduAngle.TabIndex = 13;
+        this.KeduAngle.Text = "30";
+        this.KeduAngle.TextAlign = HorizontalAlignment.Center;
+        this.MinElec.Location = new Point(0x100, 0x3e);
+        this.MinElec.Name = "MinElec";
+        this.MinElec.Size = new Size(0x3b, 0x16);
+        this.MinElec.TabIndex = 1;
+        this.MinElec.Text = "-100";
+        this.MinElec.TextAlign = HorizontalAlignment.Center;
+        this.label11.AutoSize = true;
+        this.label11.Location = new Point(180, 0x7e);
+        this.label11.Name = "label11";
+        this.label11.Size = new Size(0x42, 13);
+        this.label11.TabIndex = 12;
+        this.label11.Text = "角度分割:";
+        this.label4.AutoSize = true;
+        this.label4.Location = new Point(180, 0x26);
+        this.label4.Name = "label4";
+        this.label4.Size = new Size(0x42, 13);
+        this.label4.TabIndex = 2;
+        this.label4.Text = "幅度上限:";
+        this.DownMargin.Location = new Point(0x5f, 0x79);
+        this.DownMargin.Name = "DownMargin";
+        this.DownMargin.Size = new Size(0x37, 0x16);
+        this.DownMargin.TabIndex = 11;
+        this.DownMargin.Text = "200";
+        this.DownMargin.TextAlign = HorizontalAlignment.Center;
+        this.MaxElec.Location = new Point(0x100, 0x21);
+        this.MaxElec.Name = "MaxElec";
+        this.MaxElec.Size = new Size(0x3b, 0x16);
+        this.MaxElec.TabIndex = 3;
+        this.MaxElec.Text = "0";
+        this.MaxElec.TextAlign = HorizontalAlignment.Center;
+        this.label7.AutoSize = true;
+        this.label7.Location = new Point(0x20, 0x7e);
+        this.label7.Name = "label7";
+        this.label7.Size = new Size(0x35, 13);
+        this.label7.TabIndex = 10;
+        this.label7.Text = "下边距:";
+        this.label6.AutoSize = true;
+        this.label6.Location = new Point(0x20, 0x26);
+        this.label6.Name = "label6";
+        this.label6.Size = new Size(0x35, 13);
+        this.label6.TabIndex = 4;
+        this.label6.Text = "左边距:";
+        this.TopMargin.Location = new Point(0x5f, 0x5c);
+        this.TopMargin.Name = "TopMargin";
+        this.TopMargin.Size = new Size(0x37, 0x16);
+        this.TopMargin.TabIndex = 9;
+        this.TopMargin.Text = "100";
+        this.TopMargin.TextAlign = HorizontalAlignment.Center;
+        this.label5.AutoSize = true;
+        this.label5.Location = new Point(0x20, 0x43);
+        this.label5.Name = "label5";
+        this.label5.Size = new Size(0x35, 13);
+        this.label5.TabIndex = 6;
+        this.label5.Text = "右边距:";
+        this.label8.AutoSize = true;
+        this.label8.Location = new Point(0x20, 0x61);
+        this.label8.Name = "label8";
+        this.label8.Size = new Size(0x35, 13);
+        this.label8.TabIndex = 8;
+        this.label8.Text = "上边距:";
+        this.RightMargin.Location = new Point(0x5f, 0x3e);
+        this.RightMargin.Name = "RightMargin";
+        this.RightMargin.Size = new Size(0x37, 0x16);
+        this.RightMargin.TabIndex = 7;
+        this.RightMargin.Text = "60";
+        this.RightMargin.TextAlign = HorizontalAlignment.Center;
+        this.checkBox10.AutoSize = true;
+        this.checkBox10.Location = new Point(0x124, 0x13e);
+        this.checkBox10.Name = "checkBox10";
+        this.checkBox10.Size = new Size(0x34, 0x11);
+        this.checkBox10.TabIndex = 0x1c;
+        this.checkBox10.Text = "全选";
+        this.checkBox10.UseVisualStyleBackColor = true;
+        this.checkBox10.CheckedChanged += new EventHandler(this.checkBox10_CheckedChanged);
+        this.tabPage3.Controls.Add(this.grouper7);
+        this.tabPage3.Location = new Point(4, 0x16);
+        this.tabPage3.Name = "tabPage3";
+        this.tabPage3.Padding = new Padding(3);
+        this.tabPage3.Size = new Size(0x18f, 340);
+        this.tabPage3.TabIndex = 2;
+        this.tabPage3.Text = "其  它";
+        this.tabPage3.UseVisualStyleBackColor = true;
+        this.grouper7.BackgroundColor = Color.White;
+        this.grouper7.BackgroundGradientColor = Color.White;
+        this.grouper7.BackgroundGradientMode = Grouper.GroupBoxGradientMode.None;
+        this.grouper7.BorderColor = Color.Black;
+        this.grouper7.BorderThickness = 1f;
+        this.grouper7.Controls.Add(this.grouper8);
+        this.grouper7.Controls.Add(this.checkBoxOpenDevice);
+        this.grouper7.Controls.Add(this.checkBoxOpenZeroButton);
+        this.grouper7.CustomGroupBoxColor = Color.White;
+        this.grouper7.GroupImage = null;
+        this.grouper7.GroupTitle = "其他设置";
+        this.grouper7.Location = new Point(0x10, 0x1a);
+        this.grouper7.Name = "grouper7";
+        this.grouper7.Padding = new Padding(20);
+        this.grouper7.PaintGroupBox = false;
+        this.grouper7.RoundCorners = 10;
+        this.grouper7.ShadowColor = Color.DarkGray;
+        this.grouper7.ShadowControl = false;
+        this.grouper7.ShadowThickness = 3;
+        this.grouper7.Size = new Size(0x16f, 0xf5);
+        this.grouper7.TabIndex = 0;
+        this.grouper8.BackgroundColor = Color.White;
+        this.grouper8.BackgroundGradientColor = Color.White;
+        this.grouper8.BackgroundGradientMode = Grouper.GroupBoxGradientMode.None;
+        this.grouper8.BorderColor = Color.Black;
+        this.grouper8.BorderThickness = 1f;
+        this.grouper8.Controls.Add(this.checkBox6126);
+        this.grouper8.Controls.Add(this.checkBox7130);
+        this.grouper8.Controls.Add(this.checkBox730);
+        this.grouper8.Controls.Add(this.checkBox8454);
+        this.grouper8.CustomGroupBoxColor = Color.White;
+        this.grouper8.Enabled = false;
+        this.grouper8.ForeColor = Color.Red;
+        this.grouper8.GroupImage = null;
+        this.grouper8.GroupTitle = "依稀设置非专业人员请勿操作";
+        this.grouper8.Location = new Point(14, 120);
+        this.grouper8.Name = "grouper8";
+        this.grouper8.Padding = new Padding(20);
+        this.grouper8.PaintGroupBox = false;
+        this.grouper8.RoundCorners = 10;
+        this.grouper8.ShadowColor = Color.DarkGray;
+        this.grouper8.ShadowControl = false;
+        this.grouper8.ShadowThickness = 3;
+        this.grouper8.Size = new Size(0x153, 0x71);
+        this.grouper8.TabIndex = 2;
+        this.checkBox6126.AutoSize = true;
+        this.checkBox6126.ForeColor = Color.Black;
+        this.checkBox6126.Location = new Point(0xba, 0x4c);
+        this.checkBox6126.Name = "checkBox6126";
+        this.checkBox6126.Size = new Size(0x79, 0x11);
+        this.checkBox6126.TabIndex = 4;
+        this.checkBox6126.Text = "启用6126 D/A卡";
+        this.checkBox6126.UseVisualStyleBackColor = true;
+        this.checkBox7130.AutoSize = true;
+        this.checkBox7130.ForeColor = Color.Black;
+        this.checkBox7130.Location = new Point(0x27, 0x2b);
+        this.checkBox7130.Name = "checkBox7130";
+        this.checkBox7130.Size = new Size(0x77, 0x11);
+        this.checkBox7130.TabIndex = 1;
+        this.checkBox7130.Text = "启用7130采集卡";
+        this.checkBox7130.UseVisualStyleBackColor = true;
+        this.checkBox730.AutoSize = true;
+        this.checkBox730.ForeColor = Color.Black;
+        this.checkBox730.Location = new Point(0xba, 0x2b);
+        this.checkBox730.Name = "checkBox730";
+        this.checkBox730.Size = new Size(0x70, 0x11);
+        this.checkBox730.TabIndex = 3;
+        this.checkBox730.Text = "启用730采集卡";
+        this.checkBox730.UseVisualStyleBackColor = true;
+        this.checkBox8454.AutoSize = true;
+        this.checkBox8454.ForeColor = Color.Black;
+        this.checkBox8454.Location = new Point(0x27, 0x4c);
+        this.checkBox8454.Name = "checkBox8454";
+        this.checkBox8454.Size = new Size(0x77, 0x11);
+        this.checkBox8454.TabIndex = 2;
+        this.checkBox8454.Text = "启用8454采集卡";
+        this.checkBox8454.UseVisualStyleBackColor = true;
+        this.checkBoxOpenDevice.AutoSize = true;
+        this.checkBoxOpenDevice.Checked = true;
+        this.checkBoxOpenDevice.CheckState = CheckState.Checked;
+        this.checkBoxOpenDevice.Location = new Point(0x20, 0x4c);
+        this.checkBoxOpenDevice.Name = "checkBoxOpenDevice";
+        this.checkBoxOpenDevice.Size = new Size(0xa9, 0x11);
+        this.checkBoxOpenDevice.TabIndex = 1;
+        this.checkBoxOpenDevice.Text = "软件启动时自动连接设备";
+        this.checkBoxOpenDevice.UseVisualStyleBackColor = true;
+        this.checkBoxOpenZeroButton.AutoSize = true;
+        this.checkBoxOpenZeroButton.Checked = true;
+        this.checkBoxOpenZeroButton.CheckState = CheckState.Checked;
+        this.checkBoxOpenZeroButton.Location = new Point(0x20, 0x27);
+        this.checkBoxOpenZeroButton.Name = "checkBoxOpenZeroButton";
+        this.checkBoxOpenZeroButton.Size = new Size(0x68, 0x11);
+        this.checkBoxOpenZeroButton.TabIndex = 0;
+        this.checkBoxOpenZeroButton.Text = "启用校零按钮";
+        this.checkBoxOpenZeroButton.UseVisualStyleBackColor = true;
+        this.button1.Location = new Point(0xfd, 0x17f);
+        this.button1.Name = "button1";
+        this.button1.Size = new Size(0x4b, 0x17);
+        this.button1.TabIndex = 1;
+        this.button1.Text = "应 用";
+        this.button1.UseVisualStyleBackColor = true;
+        this.button1.Click += new EventHandler(this.button1_Click);
+        this.buttonExit.Location = new Point(0x150, 0x17f);
+        this.buttonExit.Name = "buttonExit";
+        this.buttonExit.Size = new Size(0x4b, 0x17);
+        this.buttonExit.TabIndex = 2;
+        this.buttonExit.Text = "退 出";
+        this.buttonExit.UseVisualStyleBackColor = true;
+        this.buttonExit.Click += new EventHandler(this.buttonExit_Click);
+        this.button2.Location = new Point(0xa1, 0x17f);
+        this.button2.Name = "button2";
+        this.button2.Size = new Size(0x4b, 0x17);
+        this.button2.TabIndex = 3;
+        this.button2.Text = "默认设置";
+        this.button2.UseVisualStyleBackColor = true;
+        this.button2.Visible = false;
+        this.button2.Click += new EventHandler(this.button2_Click);
+        base.AutoScaleDimensions = new SizeF(7f, 13f);
+        base.AutoScaleMode = AutoScaleMode.Font;
+        base.ClientSize = new Size(0x1b3, 0x1a2);
+        base.Controls.Add(this.button2);
+        base.Controls.Add(this.buttonExit);
+        base.Controls.Add(this.button1);
+        base.Controls.Add(this.tabControl1);
+        this.Font = new Font("宋体", 10f);
+        base.Icon = (Icon) manager.GetObject("$this.Icon");
+        base.Margin = new Padding(4, 3, 4, 3);
+        base.MaximizeBox = false;
+        base.Name = "SystemOption";
+        base.StartPosition = FormStartPosition.CenterScreen;
+        this.Text = "SystemOption";
+        base.Load += new EventHandler(this.SystemOption_Load);
+        this.tabControl1.ResumeLayout(false);
+        this.tabPage1.ResumeLayout(false);
+        this.tabPage1.PerformLayout();
+        this.grouper2.ResumeLayout(false);
+        this.grouper2.PerformLayout();
+        this.grouper1.ResumeLayout(false);
+        this.grouper1.PerformLayout();
+        this.tabPage2.ResumeLayout(false);
+        this.grouper4.ResumeLayout(false);
+        this.grouper4.PerformLayout();
+        this.numericUpDown3.EndInit();
+        this.numericUpDownDF.EndInit();
+        this.numericUpDownGF.EndInit();
+        this.numericUpDownSwitch.EndInit();
+        this.grouper3.ResumeLayout(false);
+        this.grouper3.PerformLayout();
+        this.numericUpDown4.EndInit();
+        this.numericUpDownFSd.EndInit();
+        this.numericUpDownFAz.EndInit();
+        this.numericUpDownEl.EndInit();
+        this.numericUpDownDn.EndInit();
+        this.numericUpDownScm.EndInit();
+        this.numericUpDownAz.EndInit();
+        this.numericUpDownNSd.EndInit();
+        this.numericUpDownRv.EndInit();
+        this.tabPage4.ResumeLayout(false);
+        this.tabPage4.PerformLayout();
+        this.grouper6.ResumeLayout(false);
+        this.grouper6.PerformLayout();
+        this.grouper5.ResumeLayout(false);
+        this.grouper5.PerformLayout();
+        this.tabPage3.ResumeLayout(false);
+        this.grouper7.ResumeLayout(false);
+        this.grouper7.PerformLayout();
+        this.grouper8.ResumeLayout(false);
+        this.grouper8.PerformLayout();
+        base.ResumeLayout(false);
+    }
+
+    private void LineColor_Click(object sender, EventArgs e)
+    {
+        if (this.colorDialog1.ShowDialog() == DialogResult.OK)
+        {
+            this.LineColor.BackColor = this.colorDialog1.Color;
+            getprams.LineColor = this.colorDialog1.Color;
+        }
+    }
+
+    private void MapColor1_Click(object sender, EventArgs e)
+    {
+        if (this.colorDialog1.ShowDialog() == DialogResult.OK)
+        {
+            this.MapColor1.BackColor = this.colorDialog1.Color;
+            getprams.MapColor[1] = this.colorDialog1.Color;
+        }
+    }
+
+    private void MapColor2_Click(object sender, EventArgs e)
+    {
+        if (this.colorDialog1.ShowDialog() == DialogResult.OK)
+        {
+            this.MapColor2.BackColor = this.colorDialog1.Color;
+            getprams.MapColor[2] = this.colorDialog1.Color;
+        }
+    }
+
+    private void MapColor3_Click(object sender, EventArgs e)
+    {
+        if (this.colorDialog1.ShowDialog() == DialogResult.OK)
+        {
+            this.MapColor3.BackColor = this.colorDialog1.Color;
+            getprams.MapColor[3] = this.colorDialog1.Color;
+        }
+    }
+
+    private void MapColor4_Click(object sender, EventArgs e)
+    {
+        if (this.colorDialog1.ShowDialog() == DialogResult.OK)
+        {
+            this.MapColor4.BackColor = this.colorDialog1.Color;
+        }
+    }
+
+    private void MapColor5_Click(object sender, EventArgs e)
+    {
+        if (this.colorDialog1.ShowDialog() == DialogResult.OK)
+        {
+            this.MapColor5.BackColor = this.colorDialog1.Color;
+            getprams.MapColor[5] = this.colorDialog1.Color;
+        }
+    }
+
+    private void MapColor6_Click(object sender, EventArgs e)
+    {
+        if (this.colorDialog1.ShowDialog() == DialogResult.OK)
+        {
+            this.MapColor6.BackColor = this.colorDialog1.Color;
+            getprams.MapColor[6] = this.colorDialog1.Color;
+        }
+    }
+
+    private void MapColor7_Click(object sender, EventArgs e)
+    {
+        if (this.colorDialog1.ShowDialog() == DialogResult.OK)
+        {
+            this.MapColor7.BackColor = this.colorDialog1.Color;
+            getprams.MapColor[7] = this.colorDialog1.Color;
+        }
+    }
+
+    private void MapColor8_Click(object sender, EventArgs e)
+    {
+        if (this.colorDialog1.ShowDialog() == DialogResult.OK)
+        {
+            this.MapColor8.BackColor = this.colorDialog1.Color;
+            getprams.MapColor[8] = this.colorDialog1.Color;
+        }
+    }
+
+    private void MapColor9_Click(object sender, EventArgs e)
+    {
+        if (this.colorDialog1.ShowDialog() == DialogResult.OK)
+        {
+            this.MapColor9.BackColor = this.colorDialog1.Color;
+            getprams.MapColor[9] = this.colorDialog1.Color;
+        }
+    }
+
+    private void SystemOption_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            string[] strArray;
+            string[] strArray2;
+            int num;
+            this.checkBoxVNA.Checked = define.VNA;
+            this.comboBoxVNAType.Text = define.VNAType;
+            this.textBoxVNATcpIP.Text = define.VNATcpIP;
+            this.textBoxVNANI.Text = define.VNANI.ToString();
+            this.textBoxVNAUsbGpib.Text = define.VNAUSB.ToString();
+            if (define.VNAConnect == "TCPIP")
+            {
+                this.radioButtonVNATcpIP.Checked = true;
+            }
+            if (define.VNAConnect == "NI")
+            {
+                this.radioButtonVNANI.Checked = true;
+            }
+            if (define.VNAConnect == "USB")
+            {
+                this.radioButtonVNAUsbGpib.Checked = true;
+            }
+            this.checkBoxSignal.Checked = define.Signal;
+            this.comboBoxSigType.Text = define.SigType;
+            this.textBoxSigTcpIP.Text = define.SigTcpIP;
+            this.textBoxSigNI.Text = define.SigNI.ToString();
+            this.textBoxSigCom.Text = define.SigCom.ToString();
+            if (define.SigConnect == "COM")
+            {
+                this.radioButtonSigCom.Checked = true;
+            }
+            if (define.SigConnect == "TCPIP")
+            {
+                this.radioButtonSigTcpIp.Checked = true;
+            }
+            if (define.SigConnect == "NI")
+            {
+                this.radioButtonSigNI.Checked = true;
+            }
+            this.numericUpDownScm.Value = define.Scm;
+            this.numericUpDownAz.Value = define.Az;
+            this.numericUpDownDn.Value = define.Dn;
+            this.numericUpDownEl.Value = define.El;
+            this.numericUpDownRv.Value = define.Rv;
+            this.numericUpDownNSd.Value = define.NSd;
+            this.numericUpDownSwitch.Value = define.Switch;
+            this.numericUpDownGF.Value = define.GF;
+            this.numericUpDownDF.Value = define.DF;
+            if (define.ScmAz)
+            {
+                this.comboBoxAz.Text = "脉冲";
+            }
+            else
+            {
+                this.comboBoxAz.Text = "编码";
+            }
+            if (define.ScmEl && this.comboBoxEl.Enabled)
+            {
+                this.comboBoxEl.Text = "脉冲";
+            }
+            else
+            {
+                this.comboBoxEl.Text = "编码";
+            }
+            if (define.ScmDn && this.comboBoxDn.Enabled)
+            {
+                this.comboBoxDn.Text = "脉冲";
+            }
+            else
+            {
+                this.comboBoxDn.Text = "编码";
+            }
+            if (define.ScmNSd && this.comboBoxNSd.Enabled)
+            {
+                this.comboBoxNSd.Text = "脉冲";
+            }
+            else
+            {
+                this.comboBoxNSd.Text = "编码";
+            }
+            if (define.ScmRv && this.comboBoxRv.Enabled)
+            {
+                this.comboBoxRv.Text = "脉冲";
+            }
+            else
+            {
+                this.comboBoxRv.Text = "编码";
+            }
+            this.checkBoxComScm.Checked = define.comScm;
+            this.checkBoxComAz.Checked = define.comAz;
+            this.checkBoxComEl.Checked = define.comEl;
+            this.checkBoxComDn.Checked = define.comDn;
+            this.checkBoxComPt.Checked = define.comPt;
+            this.checkBoxComNSd.Checked = define.comNSd;
+            this.checkBoxComRv.Checked = define.comRv;
+            this.checkBoxComSwitch.Checked = define.comSwitch;
+            this.checkBoxComGF.Checked = define.comGF;
+            this.checkBoxComDF.Checked = define.comDF;
+            this.CheckedComDF_CheckedChanged(sender, e);
+            this.checkBoxOpenDevice.Checked = define.ConnetDevice;
+            string str = Main.ReadINI("仪器型号", "AntName", "AntCode.ocx");
+            if (str != "")
+            {
+                strArray2 = new string[] { "-" };
+                strArray = str.Split(strArray2, StringSplitOptions.None);
+                this.comboBoxVNAType.Items.Clear();
+                for (num = 0; num < strArray.Length; num++)
+                {
+                    this.comboBoxVNAType.Items.Add(strArray[num]);
+                }
+            }
+            str = Main.ReadINI("仪器型号", "SingName", "AntCode.ocx");
+            if (str != "")
+            {
+                strArray2 = new string[] { "-" };
+                strArray = str.Split(strArray2, StringSplitOptions.None);
+                this.comboBoxSigType.Items.Clear();
+                for (num = 0; num < strArray.Length; num++)
+                {
+                    this.comboBoxSigType.Items.Add(strArray[num]);
+                }
+            }
+            this.LeftMargin.Text = Convert.ToString(getprams.LeftMargin);
+            this.RightMargin.Text = Convert.ToString(getprams.RightMargin);
+            this.TopMargin.Text = Convert.ToString(getprams.TopMargin);
+            this.DownMargin.Text = Convert.ToString(getprams.DownMargin);
+            this.MaxElec.Text = Convert.ToString(getprams.MaxElec);
+            this.MinElec.Text = Convert.ToString(getprams.MinElec);
+            this.KeduAngle.Text = Convert.ToString(getprams.KeduAngle);
+            this.KeduElec.Text = Convert.ToString(getprams.KeduElec);
+            this.LineColor.BackColor = getprams.LineColor;
+            this.BackColor1.BackColor = getprams.BackColor;
+            this.MapColor1.BackColor = getprams.MapColor[1];
+            this.MapColor2.BackColor = getprams.MapColor[2];
+            this.MapColor3.BackColor = getprams.MapColor[3];
+            this.MapColor4.BackColor = getprams.MapColor[4];
+            this.MapColor5.BackColor = getprams.MapColor[5];
+            this.MapColor6.BackColor = getprams.MapColor[6];
+            this.MapColor7.BackColor = getprams.MapColor[7];
+            this.MapColor8.BackColor = getprams.MapColor[8];
+            this.MapColor9.BackColor = getprams.MapColor[9];
+            this.checkBox1.Checked = true;
+        }
+        catch (Exception exception)
+        {
+            errLogFunction("SystemOption--SystemOption_Load + " + exception.ToString());
+            MessageBox.Show(exception.Message, "错误信息", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+        }
+    }
+
+    private void textBox7_TextChanged(object sender, EventArgs e)
+    {
+    }
+}
+

@@ -1,0 +1,690 @@
+//DrawMap()
+
+//    调用DrawZhiJiao()
+
+//            建立Draws()线程，画刻度一次
+//    建立  getpamrs()线程，读取各频点的第一点
+//            调用Drawms()，画出各频点的第一小段线
+
+//getpram2()传递参数
+
+
+
+public class getprams : IDisposable
+{
+    // Fields
+    public static Color BackColor;
+    public static int DownMargin = 60;
+    private Thread Drawmap = null;
+    private Thread DrawZJ = null;
+    private string[] FdataString = null;
+    private float[][] formerAngle = null;
+    private float[][] formerElec = null;
+    private string[] Freq = null;
+    public static int KeduAngle = 1;
+    public static int KeduElec = 10;
+    public static int LeftMargin = 60;
+    public static Color LineColor;
+    public static Color[] MapColor = new Color[10];
+    public static int MaxElec = 0;
+    public static int MinElec = -180;
+    private PictureBox pic;
+    private Random rd = new Random();
+    public static int RightMargin = 60;
+    private Bitmap sbit = null;
+    private float[] TempAngle = new float[10];
+    private int testFx = 0;
+    private int testMode = 0;
+    private int testZhou = 0;
+    public static int TopMargin = 60;
+    private TrackBar tra;
+    private int TtPoint;
+    private bool vflag = false;
+    private string VNAConnect = string.Empty;
+    private float[] X_1 = new float[10];
+    private float[] X_2 = new float[10];
+    private float[] Y_1 = new float[10];
+    private float[] Y_2 = new float[10];
+
+    // Events
+    public event ButtonEvent ButtonClick;
+
+    public event ButtonEvent ShowForm;
+
+    public event TrackbarEvent TrackbarScroll;
+
+    // Methods
+    public void Dispose()
+    {
+        this.Drawmap.Abort();
+        this.Drawmap = null;
+        this.DrawZJ.Abort();
+        this.DrawZJ = null;
+    }
+
+    public bool DrawMap()
+    {
+        try
+        {
+            this.DrawZhiJiao();
+            this.Drawmap = new Thread(new ThreadStart(this.getpamrs));
+            this.Drawmap.Start();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private void Drawms()
+    {
+        try
+        {
+            lock (this)
+            {
+                Pen pen = new Pen(Color.Red, 1f);
+                Graphics graphics = Graphics.FromImage(this.sbit);
+                graphics.InterpolationMode = InterpolationMode.High;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+                for (int i = 1; i < this.Freq.Length; i++)
+                {
+                    if (SCM.testFreqArrColor[i] && ((SCM.testFreqArr[i] != "") || (SCM.testFreqArr[i] != null)))
+                    {
+                        pen = new Pen(MapColor[i], 1f);
+                        float num2 = this.formerAngle[i][this.TtPoint] + (SCM.testAngleBound / 2f);
+                        this.Y_2[i] = this.formerElec[i][this.TtPoint];
+                        lock (this)
+                        {
+                            if (this.TtPoint == 0)
+                            {
+                                this.TempAngle[i] = num2;
+                                this.X_1[i] = num2;
+                                this.Y_1[i] = this.Y_2[i];
+                            }
+                            else
+                            {
+                                if (this.testFx == 1)
+                                {
+                                    if ((num2 - this.TempAngle[i]) < 0f)
+                                    {
+                                        this.X_2[i] = (num2 - this.TempAngle[i]) + 360f;
+                                    }
+                                    else
+                                    {
+                                        this.X_2[i] = num2 - this.TempAngle[i];
+                                    }
+                                    if ((this.TtPoint > 2) && (Math.Abs((float) (this.X_2[i] - this.X_1[i])) < 100f))
+                                    {
+                                        graphics.DrawLine(pen, new PointF(((this.X_1[i] * ((this.pic.Width - LeftMargin) - RightMargin)) / SCM.testAngleBound) + LeftMargin, ((this.Y_1[i] * ((this.pic.Height - TopMargin) - DownMargin)) / ((float) MinElec)) + TopMargin), new PointF(((this.X_2[i] * ((this.pic.Width - LeftMargin) - RightMargin)) / SCM.testAngleBound) + LeftMargin, ((this.Y_2[i] * ((this.pic.Height - TopMargin) - DownMargin)) / ((float) MinElec)) + TopMargin));
+                                    }
+                                }
+                                if (this.testFx == 2)
+                                {
+                                    if ((this.TempAngle[i] - num2) < 0f)
+                                    {
+                                        this.X_2[i] = (this.TempAngle[i] - num2) + 360f;
+                                    }
+                                    else
+                                    {
+                                        this.X_2[i] = this.TempAngle[i] - num2;
+                                    }
+                                    if ((this.TtPoint > 2) && (Math.Abs((float) (this.X_2[i] - this.X_1[i])) < 100f))
+                                    {
+                                        graphics.DrawLine(pen, (float) ((this.pic.Width - RightMargin) - ((this.X_1[i] * ((this.pic.Width - LeftMargin) - RightMargin)) / SCM.testAngleBound)), (float) (((this.Y_1[i] * ((this.pic.Height - TopMargin) - DownMargin)) / ((float) MinElec)) + TopMargin), (float) ((this.pic.Width - RightMargin) - ((this.X_2[i] * ((this.pic.Width - LeftMargin) - RightMargin)) / SCM.testAngleBound)), (float) (((this.Y_2[i] * ((this.pic.Height - TopMargin) - DownMargin)) / ((float) MinElec)) + TopMargin));
+                                    }
+                                }
+                                this.X_1[i] = this.X_2[i];
+                                this.Y_1[i] = this.Y_2[i];
+                            }
+                        }
+                    }
+                }
+                pen.Dispose();
+                graphics.Dispose();
+                this.pic.Image = this.sbit;
+            }
+        }
+        catch (Exception exception)
+        {
+            Main.errLogFunction("Drawms + " + exception.ToString());
+        }
+    }
+
+    private void Draws()
+    {
+        try
+        {
+            int num2;
+            PointF tf;
+            string str;
+            int num = MaxElec - MinElec;
+            Pen pen = new Pen(LineColor, 1f);
+            Graphics graphics = Graphics.FromImage(this.sbit);
+            Font font = new Font("宋体", 9f);
+            SolidBrush brush = new SolidBrush(Color.Black);
+            graphics.InterpolationMode = InterpolationMode.High;
+            graphics.SmoothingMode = SmoothingMode.HighQuality;
+            for (num2 = 0; num2 <= (SCM.testAngleBound / ((float) KeduAngle)); num2++)
+            {
+                int num3 = (((((this.pic.Width - LeftMargin) - RightMargin) * num2) * KeduAngle) / Convert.ToInt32(SCM.testAngleBound)) + LeftMargin;
+                graphics.DrawLine(pen, num3, TopMargin, num3, this.pic.Height - DownMargin);
+                tf = new PointF((float) (num3 - 10), (float) ((this.pic.Height - DownMargin) + 5));
+                str = Convert.ToString((float) ((num2 * KeduAngle) - (SCM.testAngleBound / 2f)));
+                graphics.DrawString(str, font, brush, tf);
+            }
+            for (num2 = 0; num2 <= (num / 10); num2++)
+            {
+                int num4 = (((((this.pic.Height - TopMargin) - DownMargin) * num2) * 10) / num) + TopMargin;
+                graphics.DrawLine(pen, LeftMargin, num4, this.pic.Width - RightMargin, num4);
+                tf = new PointF((float) (LeftMargin - 0x1c), (float) (num4 - 7));
+                str = Convert.ToString((int) (MaxElec - (num2 * 10)));
+                graphics.DrawString(str, font, brush, tf);
+            }
+            pen.Color = Color.Blue;
+            pen.DashStyle = DashStyle.Dash;
+            pen.DashPattern = new float[] { 6f, 6f };
+            graphics.DrawLine(pen, LeftMargin, ((((this.pic.Height - TopMargin) - DownMargin) * 3) / num) + TopMargin, this.pic.Width - RightMargin, ((((this.pic.Height - TopMargin) - DownMargin) * 3) / num) + TopMargin);
+            pen.Dispose();
+            graphics.Dispose();
+        }
+        catch (Exception exception)
+        {
+            Main.errLogFunction("Draws + " + exception.ToString());
+        }
+    }
+
+    public bool DrawZhiJiao()
+    {
+        try
+        {
+            this.DrawZJ = new Thread(new ThreadStart(this.Draws));
+            this.DrawZJ.Start();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private void getpamrs()
+    {
+        long num = 0L;
+        float num2 = 0f;
+        int index = 0;
+        string str2 = "";
+        string[] separator = new string[] { "," };
+        try
+        {
+            string[] strArray;
+            int num5;
+            bool flag;
+            goto Label_09FF;
+        Label_0035:
+            this.TtPoint = index;
+            if ((this.VNAConnect == "TCPIP") || (this.VNAConnect == "USB"))
+            {
+                string str;
+                if (this.testMode == 2)
+                {
+                    for (num5 = 1; num5 <= 9; num5++)
+                    {
+                        if (!(SCM.testFreqArr[num5] != ""))
+                        {
+                            break;
+                        }
+                        Array.Resize<float>(ref this.formerAngle[num5], index + 1);
+                        Array.Resize<float>(ref this.formerElec[num5], index + 1);
+                        if (define.AntName == "8753")
+                        {
+                            str = define.OutMarK + "\n";
+                            num = visa32.viPrintf(visa32.vi, str, str.Length);
+                        }
+                        str = define.ActiveMark[num5] + "\n";
+                        num = visa32.viPrintf(visa32.vi, str, str.Length);
+                        num = visa32.viScanf(visa32.vi, define.ReadData, visa32.BufferString);
+                        strArray = visa32.BufferString.ToString().Split(separator, StringSplitOptions.None);
+                        this.formerElec[num5][index] = Convert.ToSingle(strArray[0]);
+                        if (this.testZhou == 1)
+                        {
+                            this.formerAngle[num5][index] = SCM.azAngle;
+                        }
+                        else if (this.testZhou == 2)
+                        {
+                            this.formerAngle[num5][index] = SCM.elAngle;
+                        }
+                        else if (this.testZhou == 3)
+                        {
+                            this.formerAngle[num5][index] = SCM.sdAngle;
+                        }
+                    }
+                }
+                else if (this.testMode == 3)
+                {
+                    Array.Resize<string>(ref this.FdataString, index + 1);
+                    Array.Resize<float>(ref this.formerAngle[1], index + 1);
+                    Array.Resize<float>(ref this.formerElec[1], index + 1);
+                    str = define.ActivePoint + "\n";
+                    num = visa32.viPrintf(visa32.vi, str);
+                    num = visa32.viScanf(visa32.vi, "%s", visa32.BufferString);
+                    str2 = visa32.BufferString.ToString();
+                    this.FdataString[index] = str2;
+                    strArray = str2.Split(separator, StringSplitOptions.None);
+                    this.formerElec[1][index] = Convert.ToSingle(strArray[0]);
+                    if (this.testZhou == 1)
+                    {
+                        this.formerAngle[1][index] = SCM.azAngle;
+                    }
+                    else if (this.testZhou == 2)
+                    {
+                        this.formerAngle[1][index] = SCM.elAngle;
+                    }
+                    else if (this.testZhou == 3)
+                    {
+                        this.formerAngle[1][index] = SCM.sdAngle;
+                    }
+                }
+                else if (this.testMode == 1)
+                {
+                    if (this.Freq[1] == "")
+                    {
+                        return;
+                    }
+                    Array.Resize<float>(ref this.formerAngle[1], index + 1);
+                    Array.Resize<float>(ref this.formerElec[1], index + 1);
+                    if (define.AntName == "8753")
+                    {
+                        str = define.OutMarK + "\n";
+                        num = visa32.viPrintf(visa32.vi, str, str.Length);
+                    }
+                    str = define.ActiveMark[1] + "\n";
+                    num = visa32.viPrintf(visa32.vi, str);
+                    num = visa32.viScanf(visa32.vi, define.ReadData, visa32.BufferString);
+                    strArray = visa32.BufferString.ToString().Split(separator, StringSplitOptions.None);
+                    this.formerElec[1][index] = Convert.ToSingle(strArray[0]);
+                    if (this.testZhou == 1)
+                    {
+                        this.formerAngle[1][index] = SCM.azAngle;
+                    }
+                    else if (this.testZhou == 2)
+                    {
+                        this.formerAngle[1][index] = SCM.elAngle;
+                    }
+                    else if (this.testZhou == 3)
+                    {
+                        this.formerAngle[1][index] = SCM.sdAngle;
+                    }
+                }
+            }
+            else if (define.VNAConnect == "NI")
+            {
+                if (this.testMode == 2)
+                {
+                    for (num5 = 1; num5 <= 9; num5++)
+                    {
+                        if (!(this.Freq[num5] != ""))
+                        {
+                            break;
+                        }
+                        Array.Resize<float>(ref this.formerAngle[num5], index + 1);
+                        Array.Resize<float>(ref this.formerElec[num5], index + 1);
+                        if (define.AntName == "8753")
+                        {
+                            SCM.device.Write(define.OutMarK + "\n");
+                        }
+                        SCM.device.Write(define.ActiveMark[num5] + "\n");
+                        Thread.Sleep(10);
+                        strArray = SCM.device.ReadString().Split(separator, StringSplitOptions.None);
+                        this.formerElec[num5][index] = Convert.ToSingle(strArray[0]);
+                        if (this.testZhou == 1)
+                        {
+                            this.formerAngle[num5][index] = SCM.azAngle;
+                        }
+                        else if (this.testZhou == 2)
+                        {
+                            this.formerAngle[num5][index] = SCM.elAngle;
+                        }
+                        else if (this.testZhou == 3)
+                        {
+                            this.formerAngle[num5][index] = SCM.sdAngle;
+                        }
+                    }
+                }
+                else if (this.testMode == 3)
+                {
+                    Array.Resize<string>(ref this.FdataString, index + 1);
+                    Array.Resize<float>(ref this.formerAngle[1], index + 1);
+                    Array.Resize<float>(ref this.formerElec[1], index + 1);
+                    SCM.device.Write(define.ActivePoint + "\n");
+                    str2 = SCM.device.ReadString(0x30d40);
+                    this.FdataString[index] = str2.ToString();
+                    strArray = str2.Split(separator, StringSplitOptions.None);
+                    this.formerElec[1][index] = Convert.ToSingle(strArray[0]);
+                    if (this.testZhou == 1)
+                    {
+                        this.formerAngle[1][index] = SCM.azAngle;
+                    }
+                    else if (this.testZhou == 2)
+                    {
+                        this.formerAngle[1][index] = SCM.elAngle;
+                    }
+                    else if (this.testZhou == 3)
+                    {
+                        this.formerAngle[1][index] = SCM.sdAngle;
+                    }
+                }
+                else if (this.testMode == 1)
+                {
+                    if (this.Freq[1] == "")
+                    {
+                        return;
+                    }
+                    Array.Resize<float>(ref this.formerAngle[1], index + 1);
+                    Array.Resize<float>(ref this.formerElec[1], index + 1);
+                    Thread.Sleep(15);
+                    strArray = "-20".Split(separator, StringSplitOptions.None);
+                    this.formerElec[1][index] = Convert.ToSingle(strArray[0]);
+                    if (this.testZhou == 1)
+                    {
+                        this.formerAngle[1][index] = SCM.azAngle;
+                    }
+                    else if (this.testZhou == 2)
+                    {
+                        this.formerAngle[1][index] = SCM.elAngle;
+                    }
+                    else if (this.testZhou == 3)
+                    {
+                        this.formerAngle[1][index] = SCM.sdAngle;
+                    }
+                }
+            }
+            Thread.Sleep(5);
+            this.Drawms();
+            if (index > 1)
+            {
+                num2 = this.formerAngle[1][index] - this.formerAngle[1][0];
+                if (num2 < 0f)
+                {
+                    num2 += SCM.testAngleBound;
+                }
+            }
+            if (!((((num2 <= (SCM.testAngleBound - 2.5)) && (num2 >= 2.5)) || (index <= 100)) || this.vflag))
+            {
+                this.vflag = true;
+            }
+            if ((((num2 > (SCM.testAngleBound - 0.09)) || (num2 < 0.09)) && (index > 100)) && this.vflag)
+            {
+                this.vflag = false;
+                SCM.DataTest = 2;
+                if (this.ButtonClick != null)
+                {
+                    this.ButtonClick(this, new EventArgs());
+                }
+                this.TestStopDispData();
+                if (SCM.autoTestStart > 0)
+                {
+                    Main.saveDataFunction(define.saveFlag.Dir);
+                    SCM.autoTestend++;
+                }
+                else if (this.ShowForm != null)
+                {
+                    this.ShowForm(this, new EventArgs());
+                }
+                this.TtPoint = -1;
+                index = 0;
+                if (SCM.testFX == 1)
+                {
+                    SCM.testFX = 2;
+                }
+                else
+                {
+                    SCM.testFX = 1;
+                }
+            }
+            if (SCM.DataTest == 0)
+            {
+                return;
+            }
+            index++;
+            Thread.Sleep(5);
+        Label_09FF:
+            flag = true;
+            goto Label_0035;
+        }
+        catch (Exception exception)
+        {
+            this.ButtonClick(this, new EventArgs());
+            Main.errLogFunction("getpamrs + " + exception.ToString());
+            this.Drawmap.Abort();
+            this.DrawZJ.Abort();
+        }
+    }
+
+    public void getpram2(PictureBox pb, TrackBar tra1, int fx, int tz, string vna, int tm, string[] fq)
+    {
+        this.tra = tra1;
+        this.pic = pb;
+        this.sbit = new Bitmap(pb.Width, pb.Height);
+        this.pic.Image = this.sbit;
+        this.testZhou = tz;
+        this.testFx = fx;
+        this.testMode = tm;
+        this.VNAConnect = vna;
+        Array.Resize<string>(ref this.Freq, fq.Length);
+        Array.Resize<float[]>(ref this.formerAngle, fq.Length);
+        Array.Resize<float[]>(ref this.formerElec, fq.Length);
+        fq.CopyTo(this.Freq, 0);
+    }
+
+    public void getpram2(PictureBox pb, TrackBar tra1, int fx, int tz, string vna, int tm, int fq, string[] freq)
+    {
+        this.tra = tra1;
+        this.pic = pb;
+        this.sbit = new Bitmap(pb.Width, pb.Height);
+        this.pic.Image = this.sbit;
+        this.testZhou = tz;
+        this.testFx = fx;
+        this.testMode = tm;
+        this.VNAConnect = vna;
+        Array.Resize<string>(ref this.Freq, freq.Length);
+        Array.Resize<float[]>(ref this.formerAngle, fq + 1);
+        Array.Resize<float[]>(ref this.formerElec, fq + 1);
+        this.Freq[freq.Length - 1] = freq[freq.Length - 1];
+    }
+
+    public void getprams1(PictureBox pb)
+    {
+        this.pic = pb;
+        this.sbit = new Bitmap(pb.Width, pb.Height);
+        this.pic.Image = this.sbit;
+    }
+
+    private int GetValueTrackbar()
+    {
+        try
+        {
+            return this.tra.Value;
+        }
+        catch (Exception exception)
+        {
+            Main.errLogFunction("GetValueTrackbar + " + exception.ToString());
+            return this.tra.Value;
+        }
+    }
+
+    public void Smoth(int Indexs, int Smoths)
+    {
+        try
+        {
+            if (Smoths > 0)
+            {
+                for (int i = 1; i <= Smoths; i++)
+                {
+                    Main.savedata[Indexs].Elec[0] = Convert.ToSingle((double) 0.028571428571428571) * (((((31f * Main.savedata[Indexs].Elec[0]) + (9f * Main.savedata[Indexs].Elec[1])) - (3f * Main.savedata[Indexs].Elec[2])) - (5f * Main.savedata[Indexs].Elec[3])) + (3f * Main.savedata[Indexs].Elec[4]));
+                    Main.savedata[Indexs].Elec[1] = Convert.ToSingle((double) 0.028571428571428571) * (((((9f * Main.savedata[Indexs].Elec[0]) + (13f * Main.savedata[Indexs].Elec[1])) + (12f * Main.savedata[Indexs].Elec[2])) + (6f * Main.savedata[Indexs].Elec[3])) - (5f * Main.savedata[Indexs].Elec[4]));
+                    for (int j = 2; j < (Main.savedata[Indexs].Angle.Length - 2); j++)
+                    {
+                        Main.savedata[Indexs].Elec[j] = Convert.ToSingle((double) 0.028571428571428571) * (((((-3f * Main.savedata[Indexs].Elec[j - 2]) + (12f * Main.savedata[Indexs].Elec[j - 1])) + (17f * Main.savedata[Indexs].Elec[j])) + (12f * Main.savedata[Indexs].Elec[j + 1])) - (3f * Main.savedata[Indexs].Elec[j + 2]));
+                    }
+                }
+            }
+        }
+        catch
+        {
+        }
+    }
+
+    private void TestStopDispData()
+    {
+        try
+        {
+            float num;
+            int num3;
+            int num4;
+            int num5;
+            int num6;
+            int num7;
+            float num2 = 0f;
+            if ((this.testMode == 1) || (this.testMode == 2))
+            {
+                Array.Resize<define.map>(ref Main.savedata, 10);
+                for (num3 = 1; num3 < this.Freq.Length; num3++)
+                {
+                    if (this.Freq[num3] == "")
+                    {
+                        return;
+                    }
+                    if (this.testFx == 2)
+                    {
+                        num4 = this.formerAngle[num3].Length - 1;
+                        num5 = 0;
+                        while (num5 < (num4 / 2))
+                        {
+                            num = this.formerAngle[num3][num4 - num5];
+                            this.formerAngle[num3][num4 - num5] = this.formerAngle[num3][num5];
+                            this.formerAngle[num3][num5] = num;
+                            num2 = this.formerElec[num3][num4 - num5];
+                            this.formerElec[num3][num4 - num5] = this.formerElec[num3][num5];
+                            this.formerElec[num3][num5] = num2;
+                            num5++;
+                        }
+                    }
+                    Array.Resize<float>(ref Main.savedata[num3].Angle, 1);
+                    Array.Resize<float>(ref Main.savedata[num3].Elec, 1);
+                    Main.savedata[num3].Angle[0] = this.formerAngle[num3][0];
+                    Main.savedata[num3].Elec[0] = this.formerElec[num3][0];
+                    num6 = 0;
+                    num7 = 1;
+                    while (num7 < this.formerAngle[num3].Length)
+                    {
+                        if (!(Main.savedata[num3].Angle[num6] == this.formerAngle[num3][num7]))
+                        {
+                            num6++;
+                            Array.Resize<float>(ref Main.savedata[num3].Angle, num6 + 1);
+                            Array.Resize<float>(ref Main.savedata[num3].Elec, num6 + 1);
+                            Main.savedata[num3].Angle[num6] = this.formerAngle[num3][num7];
+                            Main.savedata[num3].Elec[num6] = this.formerElec[num3][num7];
+                        }
+                        num7++;
+                    }
+                    this.Smoth(num3, 100);
+                }
+            }
+            else if (this.testMode == 3)
+            {
+                num4 = this.FdataString.Length - 1;
+                if (this.testFx == 2)
+                {
+                    for (num5 = 0; num5 < (num4 / 2); num5++)
+                    {
+                        num = this.formerAngle[1][num4 - num5];
+                        this.formerAngle[1][num4 - num5] = this.formerAngle[1][num5];
+                        this.formerAngle[1][num5] = num;
+                        string str = this.FdataString[num4 - num5];
+                        this.FdataString[num4 - num5] = this.FdataString[num5];
+                        this.FdataString[num5] = str;
+                    }
+                }
+                string[] separator = new string[] { "*", "," };
+                string[] strArray2 = new string[] { "\n" };
+                for (int i = 0; i < (num4 + 1); i++)
+                {
+                    string[] strArray3 = this.FdataString[i].Split(separator, StringSplitOptions.None);
+                    num6 = 0;
+                    while (num6 < (this.formerAngle.Length - 1))
+                    {
+                        Array.Resize<float>(ref this.formerAngle[num6 + 1], num4 + 1);
+                        Array.Resize<float>(ref this.formerElec[num6 + 1], num4 + 1);
+                        if (define.AntName == "8753")
+                        {
+                            if (num6 == 0)
+                            {
+                                this.formerElec[num6 + 1][i] = Convert.ToSingle(strArray3[num6 * 2]);
+                                this.formerAngle[num6 + 1][i] = this.formerAngle[1][i];
+                            }
+                            else
+                            {
+                                this.formerAngle[num6 + 1][i] = this.formerAngle[1][i];
+                                this.formerElec[num6 + 1][i] = Convert.ToSingle(strArray3[num6].Split(strArray2, StringSplitOptions.None)[1]);
+                            }
+                        }
+                        else
+                        {
+                            this.formerElec[num6 + 1][i] = Convert.ToSingle(strArray3[num6 * 2]);
+                            this.formerAngle[num6 + 1][i] = this.formerAngle[1][i];
+                        }
+                        num6++;
+                    }
+                }
+                Array.Resize<define.map>(ref Main.savedata, this.formerAngle.Length);
+                for (num3 = 1; num3 < this.formerAngle.Length; num3++)
+                {
+                    Array.Resize<float>(ref Main.savedata[num3].Angle, 1);
+                    Array.Resize<float>(ref Main.savedata[num3].Elec, 1);
+                    Main.savedata[num3].Angle[0] = this.formerAngle[num3][0];
+                    Main.savedata[num3].Elec[0] = this.formerElec[num3][0];
+                    num6 = 0;
+                    for (num7 = 1; num7 < this.formerAngle[num3].Length; num7++)
+                    {
+                        if (!(Main.savedata[num3].Angle[num6] == this.formerAngle[num3][num7]))
+                        {
+                            num6++;
+                            Array.Resize<float>(ref Main.savedata[num3].Angle, num6 + 1);
+                            Array.Resize<float>(ref Main.savedata[num3].Elec, num6 + 1);
+                            Main.savedata[num3].Angle[num6] = this.formerAngle[num3][num7];
+                            Main.savedata[num3].Elec[num6] = this.formerElec[num3][num7];
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception exception)
+        {
+            Main.errLogFunction("TestStopDispData + " + exception.ToString());
+        }
+    }
+
+    private void UpDataTrackbar(int value)
+    {
+        try
+        {
+            this.tra.Value = value;
+        }
+        catch (Exception exception)
+        {
+            Main.errLogFunction("UpDataTrackbar + " + exception.ToString());
+        }
+    }
+
+    // Nested Types
+    public delegate void ButtonEvent(object sender, EventArgs e);
+
+    private delegate int GetTrackbar();
+
+    private delegate void SetTrackbar(int value);
+
+    public delegate void TrackbarEvent(object sender, EventArgs e);
+}
+

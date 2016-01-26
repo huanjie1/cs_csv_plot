@@ -9,14 +9,19 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Drawing.Drawing2D;
 
 namespace csv_plot1
 {
     public partial class Form1 : Form
     {
+        private Bitmap sBitmap = null;
+
+
         public Form1()
         {
             InitializeComponent();
+            this.sBitmap = (Bitmap)this.pictureBox1.Image;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -112,8 +117,10 @@ namespace csv_plot1
             label4.Text += "试验分割行" + expdataforsplit + '\n';
             label4.Text += "列数" + numofcolumn.ToString() + '\n';
 
-            double[] col1 = new double[numoflines];
-            double[] col2 = new double[numoflines];
+            //double[] col1 = new double[numoflines];
+            //double[] col2 = new double[numoflines];
+            List<double> coli1 = new List<double>();
+            List<double> coli2 = new List<double>();
             List<double> coli3 = new List<double>();
             List<double> coli4 = new List<double>();
             List<double> coli5 = new List<double>();
@@ -167,10 +174,12 @@ namespace csv_plot1
                         switch(j2)
                         {
                             case 0:
-                                col1[i2 - headlinenum]= Convert.ToDouble(dataspl[j2]);
+                                //col1[i2 - headlinenum]= Convert.ToDouble(dataspl[j2]);
+                                coli1.Add(Convert.ToDouble(dataspl[j2]));
                                 break;
                             case 1:
-                                col2[i2 - headlinenum] = Convert.ToDouble(dataspl[j2]);
+                                //col2[i2 - headlinenum] = Convert.ToDouble(dataspl[j2]);
+                                coli2.Add(Convert.ToDouble(dataspl[j2]));
                                 break;
                             case 2:
                                 coli3.Add(Convert.ToDouble(dataspl[j2]));
@@ -202,6 +211,9 @@ namespace csv_plot1
 
             label4.Text += "标题行数" + headlinenum.ToString() + '\n';
             label4.Text += "数据行数" + validdatanum.ToString() + '\n';
+
+            Drawsn2();
+            getprams.RightMargin = getprams.RightMargin + 5;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -220,14 +232,106 @@ namespace csv_plot1
             }
             catch
             {
-                MessageBox.Show("df");
+                //MessageBox.Show("df");
             }
             label4.Text += exp11.ToString() + '\n';
+            Drawsn();
+            getprams.DownMargin = getprams.DownMargin + 5;
         }
 
-        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        private void Drawsn()
         {
+            try
+            {
+                int num2;
+                PointF tf;
+                string str;
+                Pen pen = new Pen(getprams.LineColor, 1f);
+                Graphics graphics = Graphics.FromImage(this.sBitmap);
+                Font font = new Font("宋体", 9f);
+                SolidBrush brush = new SolidBrush(Color.Black);
+                graphics.InterpolationMode = InterpolationMode.High;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                for (num2 = 0; num2 <= 12; num2++)
+                {
+                    int num3 = (((((this.pictureBox1.Width - getprams.LeftMargin) - getprams.RightMargin) * num2) * 30) / Convert.ToInt32(360)) + getprams.LeftMargin;
+                    graphics.DrawLine(pen, num3, getprams.TopMargin, num3, this.pictureBox1.Height - getprams.DownMargin);
+                    tf = new PointF((float)(num3 - 10), (float)((this.pictureBox1.Height - getprams.DownMargin) + 5));
+                    str = Convert.ToString((int)((num2 * 30) - 180));
+                    graphics.DrawString(str, font, brush, tf);
+                }
+                for (num2 = 0; num2 <= 10; num2++)
+                {
+                    int num4 = (((((this.pictureBox1.Height - getprams.TopMargin) - getprams.DownMargin) * num2) * 10) / 100) + getprams.TopMargin;
+                    graphics.DrawLine(pen, getprams.LeftMargin, num4, this.pictureBox1.Width - getprams.RightMargin, num4);
+                    tf = new PointF((float)(getprams.LeftMargin - 0x1c), (float)(num4 - 7));
+                    str = Convert.ToString(-(num2 * 10));
+                    graphics.DrawString(str, font, brush, tf);
+                }
+                pen.Color = Color.Blue;
+                pen.DashStyle = DashStyle.Dash;
+                pen.DashPattern = new float[] { 6f, 6f };
+                graphics.DrawLine(pen, getprams.LeftMargin, ((((this.pictureBox1.Height - getprams.TopMargin) - getprams.DownMargin) * 3) / 100) + getprams.TopMargin, this.pictureBox1.Width - getprams.RightMargin, ((((this.pictureBox1.Height - getprams.TopMargin) - getprams.DownMargin) * 3) / 100) + getprams.TopMargin);
+                pen.Dispose();
+                graphics.Dispose();
 
+                //以下三者的效果是一样的，若都没有，则新图形不会立即显示，有机会刷新时会和之后改变的一并增量绘制
+                //this.pictureBox1.Image = this.sBitmap;
+                //pictureBox1.Invalidate();
+                //pictureBox1.Refresh();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("Draws + " + exception.ToString());
+            }
         }
+
+        private void Drawsn2()
+        {
+            try
+            {
+                int num2;
+                PointF tf;
+                string str;
+                Pen pen = new Pen(getprams.LineColor, 1f);
+                Graphics graphics = Graphics.FromImage(this.sBitmap);
+                Font font = new Font("宋体", 15f);
+                SolidBrush brush = new SolidBrush(Color.Black);
+                graphics.InterpolationMode = InterpolationMode.High;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                for (num2 = 0; num2 <= 12; num2++)
+                {
+                    int num3 = (((((this.pictureBox1.Width - getprams.LeftMargin) - getprams.RightMargin) * num2) * 30) / Convert.ToInt32(360)) + getprams.LeftMargin;
+                    graphics.DrawLine(pen, num3, getprams.TopMargin, num3, this.pictureBox1.Height - getprams.DownMargin);
+                    tf = new PointF((float)(num3 - 10), (float)((this.pictureBox1.Height - getprams.DownMargin) + 5));
+                    str = Convert.ToString((int)((num2 * 30) - 180));
+                    graphics.DrawString(str, font, brush, tf);
+                }
+                for (num2 = 0; num2 <= 10; num2++)
+                {
+                    int num4 = (((((this.pictureBox1.Height - getprams.TopMargin) - getprams.DownMargin) * num2) * 10) / 100) + getprams.TopMargin;
+                    graphics.DrawLine(pen, getprams.LeftMargin, num4, this.pictureBox1.Width - getprams.RightMargin, num4);
+                    tf = new PointF((float)(getprams.LeftMargin - 0x1c), (float)(num4 - 7));
+                    str = Convert.ToString(-(num2 * 10));
+                    graphics.DrawString(str, font, brush, tf);
+                }
+                pen.Color = Color.Blue;
+                pen.DashStyle = DashStyle.Dash;
+                pen.DashPattern = new float[] { 6f, 6f };
+                graphics.DrawLine(pen, getprams.LeftMargin, ((((this.pictureBox1.Height - getprams.TopMargin) - getprams.DownMargin) * 3) / 100) + getprams.TopMargin, this.pictureBox1.Width - getprams.RightMargin, ((((this.pictureBox1.Height - getprams.TopMargin) - getprams.DownMargin) * 3) / 100) + getprams.TopMargin);
+                pen.Dispose();
+                graphics.Dispose();
+
+                //以下三者的效果是一样的，若都没有，则新图形不会立即显示
+                //this.pictureBox1.Image = this.sBitmap;
+                pictureBox1.Invalidate();
+                //pictureBox1.Refresh();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("Draws + " + exception.ToString());
+            }
+        }
+
     }
 }

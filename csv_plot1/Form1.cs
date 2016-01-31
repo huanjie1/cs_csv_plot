@@ -78,7 +78,7 @@ namespace csv_plot1
             // 5s
             //string fileAdd = @"C:\Users\y689\Desktop\201601SOANoise\noisemeasure\Trace_0028.csv";
             //string fileAdd = System.IO.Directory.GetParent(System.Environment.CurrentDirectory) + @"\57G.prn";
-            string fileAdd = @"..\..\A1550.9.csv";
+            string fileAdd = @"..\..\57g.prn";
             string alltext = File.ReadAllText(fileAdd);
             Regex rg1 = new Regex(",");
             Regex rg2 = new Regex(";");
@@ -127,7 +127,14 @@ namespace csv_plot1
 
             //double[] col1 = new double[numoflines];
             //double[] col2 = new double[numoflines];
-            
+            coli1.Clear();
+            coli2.Clear();
+            coli3.Clear();
+            coli4.Clear();
+            coli5.Clear();
+            coli6.Clear();
+            coli7.Clear();
+
             bool headregion = true;
 
             double temp1 = 0;
@@ -216,19 +223,6 @@ namespace csv_plot1
 
             pictureBox1.Invalidate();
 
-            //if (DrawData(coli1, coli2))
-            //    figureprams.figexist = true;
-
-            //coli1.Clear();
-            //coli2.Clear();
-            //coli3.Clear();
-            //coli4.Clear();
-            //coli5.Clear();
-            //coli6.Clear();
-            //coli7.Clear();
-
-
-            //figureprams.RightMargin = figureprams.RightMargin + 5;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -347,107 +341,7 @@ namespace csv_plot1
                 MessageBox.Show("Draws + " + exception.ToString());
             }
         }
-
-        private bool DrawData(List<double> colx, List<double> coly)
-        {
-            if(colx.Count!=coly.Count)
-            {
-                return false;
-            }
-            try
-            {
-                int num2;
-                float num3;
-                float num4;
-                figureprams.xrange = (colx.Max() - colx.Min()) * figureprams.xexpandf;
-                figureprams.yrange = (coly.Max() - coly.Min()) * figureprams.yexpandf;
-                figureprams.xlinespace = figureprams.xrange / figureprams.numofxgrid;
-                figureprams.ylinespace = figureprams.yrange / figureprams.numofygrid;
-                figureprams.effpicxrange = this.pictureBox1.Width - figureprams.LeftMargin - figureprams.RightMargin;
-                figureprams.effpicyrange = this.pictureBox1.Height - figureprams.TopMargin - figureprams.DownMargin;
-                figureprams.picxmin = colx.Min() - (colx.Max() - colx.Min()) * (figureprams.xexpandf - 1) / 2;
-                figureprams.picymax = coly.Max() + (coly.Max() - coly.Min()) * (figureprams.yexpandf - 1) / 2;
-
-                PointF tf;
-                string str;
-                Pen penouter = new Pen(Color.Black, 2f);
-                Pen peninter = new Pen(Color.Black, 1f);
-                Pen pendata = new Pen(Color.Blue, 2f);
-                peninter.DashStyle = DashStyle.Dash;
-                peninter.DashPattern = new float[] { 6f, 6f };
-                Graphics graphics = Graphics.FromImage(this.sBitmap);
-                graphics.Clear(Color.White);
-                Font font = new Font("Arial", 7.5f);
-                SolidBrush brush = new SolidBrush(Color.Black);
-                graphics.InterpolationMode = InterpolationMode.High;
-                graphics.SmoothingMode = SmoothingMode.HighQuality;
-
-                for (num2 = 0; num2 <= figureprams.numofxgrid; num2++)
-                {
-                    num3 = (float)(figureprams.effpicxrange / figureprams.xrange * num2 * figureprams.xlinespace + figureprams.LeftMargin);
-                    if(0==num2 || figureprams.numofxgrid == num2)
-                        graphics.DrawLine(penouter, num3, figureprams.TopMargin, num3, this.pictureBox1.Height - figureprams.DownMargin);
-                    else
-                        graphics.DrawLine(peninter, num3, figureprams.TopMargin, num3, this.pictureBox1.Height - figureprams.DownMargin);                    
-                    tf = new PointF((float)(num3 - 35), (float)((this.pictureBox1.Height - figureprams.DownMargin) + 5));
-                    str = (num2 * figureprams.xlinespace + figureprams.picxmin).ToString("E4");
-                    graphics.DrawString(str, font, brush, tf);
-                }
-                for (num2 = 0; num2 <= figureprams.numofygrid; num2++)
-                {
-                    num4 = (float)((figureprams.effpicyrange / figureprams.yrange) * num2 * figureprams.ylinespace + figureprams.TopMargin);
-                    if (0 == num2 || figureprams.numofygrid == num2)
-                        graphics.DrawLine(penouter, figureprams.LeftMargin, num4, this.pictureBox1.Width - figureprams.RightMargin, num4);
-                    else
-                        graphics.DrawLine(peninter, figureprams.LeftMargin, num4, this.pictureBox1.Width - figureprams.RightMargin, num4);                   
-                    tf = new PointF(0f, (float)(num4 - 7));
-                    str = (-num2 * figureprams.ylinespace + figureprams.picymax).ToString("E4");
-                    //str = Convert.ToString(-(num2 * 10));
-                    graphics.DrawString(str, font, brush, tf);
-                }
-
-                List<PointF> dataCor = new List<PointF>();
-                for (num2 = 0; num2 < colx.Count; num2++)
-                {
-                    dataCor.Add(new PointF(
-                        (float)((colx[num2] - figureprams.picxmin) / figureprams.xrange * figureprams.effpicxrange + figureprams.LeftMargin),
-                        (float)((figureprams.picymax - coly[num2]) / figureprams.yrange * figureprams.effpicyrange + figureprams.TopMargin)
-                        ));
-                }
-                graphics.DrawLines(pendata, dataCor.ToArray());
-
-                //float x1, x2, y1, y2;
-                //x1 = (float)((colx[0] - figureprams.picxmin) / figureprams.xrange * figureprams.effpicxrange + figureprams.LeftMargin);
-                //y1 = (float)((figureprams.picymax - coly[0]) / figureprams.yrange * figureprams.effpicyrange + figureprams.TopMargin);
-                //for (num2 = 1; num2 < colx.Count; num2++)
-                //{
-                //    x2 = (float)((colx[num2] - figureprams.picxmin) / figureprams.xrange * figureprams.effpicxrange + figureprams.LeftMargin);
-                //    y2 = (float)((figureprams.picymax - coly[num2]) / figureprams.yrange * figureprams.effpicyrange + figureprams.TopMargin);
-                //    graphics.DrawLine(pendata, x1, y1, x2, y2);
-                //    //System.Threading.Thread.Sleep(10);
-                //    //pictureBox1.Invalidate();  //这种方式下Invalidate()不好用
-                //    //this.pictureBox1.Image = this.sBitmap; //这种方式下Image = 不好用
-                //    pictureBox1.Refresh(); //这种方式下仅Refresh()好用
-                //    y1 = y2;
-                //    x1 = x2;
-                //}
-
-                penouter.Dispose();
-                peninter.Dispose();
-                pendata.Dispose();
-                graphics.Dispose();
-
-                this.pictureBox1.Image = this.sBitmap;
-                //sBitmapbak = sBitmap;
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
+                
         private bool DrawData(List<double> colx, List<double> coly, PaintEventArgs e)
         {
             if (colx.Count != coly.Count)
@@ -541,14 +435,6 @@ namespace csv_plot1
                 graphics.DrawLine(peninter2, mousepositionx, figureprams.TopMargin, mousepositionx, this.pictureBox1.Height - figureprams.DownMargin);
                 graphics.DrawLine(peninter2, figureprams.LeftMargin, mousepositiony, this.pictureBox1.Width - figureprams.RightMargin, mousepositiony);
 
-                //penouter.Dispose();
-                //peninter.Dispose();
-                //peninter2.Dispose();
-                //pendata.Dispose();
-                ////graphics.Dispose();//集中绘图后，Dispose()会导致异常使无法绘图
-
-                //this.pictureBox1.Image = this.sBitmap;
-                //sBitmapbak = sBitmap;
 
                 return true;
             }
@@ -572,37 +458,6 @@ namespace csv_plot1
                     mousepositionx = e.X;
                     mousepositiony = e.Y;
                     pictureBox1.Invalidate();
-
-
-
-
-
-
-
-
-
-                    ////DrawData(coli1, coli2);
-                    //Pen peninter2 = new Pen(Color.Gray, 1f);
-                    //peninter2.DashStyle = DashStyle.Dash;
-                    //peninter2.DashPattern = new float[] { 6f, 6f };
-                    //Graphics graphics = Graphics.FromImage(this.sBitmap);
-
-                    //////Region region = new Region(new Rectangle(figureprams.LeftMargin, figureprams.LeftMargin, figureprams.effpicxrange, figureprams.effpicyrange));
-                    ////Graphics graphics = Graphics.FromImage(new Bitmap(pictureBox1.Width,pictureBox1.Height));
-                    //////graphics.SetClip(region, CombineMode.Union);
-
-
-
-
-
-                    //graphics.DrawLine(peninter2, e.X, figureprams.TopMargin, e.X, this.pictureBox1.Height - figureprams.DownMargin);
-                    //graphics.DrawLine(peninter2, figureprams.LeftMargin, e.Y, this.pictureBox1.Width - figureprams.RightMargin, e.Y);
-
-                    ////peninter.Dispose();                   
-                    ////graphics.Dispose();
-
-                    ////this.pictureBox1.Image = this.sBitmap;
-                    ////pictureBox1.Refresh();
 
                     label5.Text =
                         "X: " +
